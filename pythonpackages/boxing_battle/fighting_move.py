@@ -116,3 +116,54 @@ class AttackMove(FightingMove):
     @stum_time.setter
     def stum_time(self, value: Optional[float]):
         self._stum_time = value
+
+
+class DefenseMove(FightingMove):
+    def __init__(
+        self,
+        name: str,
+        icon: str,
+        anination_image: str,
+        animation_time: Optional[float] = None,
+        animation_sound: Optional[str] = None,
+        life_resistance_percentage: Optional[float] = None,
+        stamina_resistance_percentage: Optional[float] = None,
+    ):
+        super().__init__(
+            name=name,
+            icon=icon,
+            anination_image=anination_image,
+            animation_time=animation_time,
+            animation_sound=animation_sound,
+        )
+
+        self.life_resistance_percentage = life_resistance_percentage
+        self.stamina_resistance_percentage = stamina_resistance_percentage
+
+    @property
+    def life_resistance_percentage(self) -> float:
+        """
+        The life resistance percentage of the move.
+        Default is 100%.
+        """
+        if self._life_resistance_percentage is None:
+            return 100.0
+        return self._life_resistance_percentage
+
+    @life_resistance_percentage.setter
+    def life_resistance_percentage(self, value: Optional[float]):
+        self._life_resistance_percentage = value
+
+    @property
+    def stamina_resistance_percentage(self) -> float:
+        """
+        The stamina resistance percentage of the move.
+        Default is 0%.
+        """
+        if self._stamina_resistance_percentage is None:
+            return 0.0
+        return self._stamina_resistance_percentage
+
+    @stamina_resistance_percentage.setter
+    def stamina_resistance_percentage(self, value: Optional[float]):
+        self._stamina_resistance_percentage = value
