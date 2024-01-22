@@ -1,0 +1,4 @@
+[submodule "pythonpackages/extra_animated_value"]
+	path = pythonpackages/extra_animated_value
+	url = https://github.com/DRincs-Productions/extra-animated-value
+	branch = python-lib
