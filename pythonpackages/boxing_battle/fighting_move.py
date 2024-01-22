@@ -9,12 +9,14 @@ class FightingMove:
         anination_image: str,
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
+        can_be_pressed: bool = True,
     ):
         self.name = name
         self.icon = icon
         self.animation_image = anination_image
         self.animation_time = animation_time
         self.animation_sound = animation_sound
+        self.can_be_pressed = can_be_pressed
 
     @property
     def name(self) -> str:
@@ -63,6 +65,15 @@ class FightingMove:
     def animation_sound(self, value: Optional[str]):
         self._animation_sound = value
 
+    @property
+    def can_be_pressed(self) -> bool:
+        """If the move can be pressed."""
+        return self._can_be_pressed
+
+    @can_be_pressed.setter
+    def can_be_pressed(self, value: bool):
+        self._can_be_pressed = value
+
 
 class AttackMove(FightingMove):
     def __init__(
@@ -82,6 +93,7 @@ class AttackMove(FightingMove):
             anination_image=anination_image,
             animation_time=animation_time,
             animation_sound=animation_sound,
+            can_be_pressed=False,
         )
 
         self.health_damage = health_damage
@@ -135,6 +147,7 @@ class DefenseMove(FightingMove):
             anination_image=anination_image,
             animation_time=animation_time,
             animation_sound=animation_sound,
+            can_be_pressed=True,
         )
 
         self.life_resistance_percentage = life_resistance_percentage
@@ -167,3 +180,22 @@ class DefenseMove(FightingMove):
     @stamina_resistance_percentage.setter
     def stamina_resistance_percentage(self, value: Optional[float]):
         self._stamina_resistance_percentage = value
+
+
+class DodgeMove(FightingMove):
+    def __init__(
+        self,
+        name: str,
+        icon: str,
+        effect_time: float,
+        anination_image: str,
+        animation_sound: Optional[str] = None,
+    ):
+        super().__init__(
+            name=name,
+            icon=icon,
+            anination_image=anination_image,
+            animation_time=effect_time,
+            animation_sound=animation_sound,
+            can_be_pressed=False,
+        )
