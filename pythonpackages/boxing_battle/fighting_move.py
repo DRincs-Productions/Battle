@@ -62,3 +62,57 @@ class FightingMove:
     @animation_sound.setter
     def animation_sound(self, value: Optional[str]):
         self._animation_sound = value
+
+
+class AttackMove(FightingMove):
+    def __init__(
+        self,
+        name: str,
+        icon: str,
+        health_damage: int,
+        stamina_damage: int,
+        anination_image: str,
+        animation_time: Optional[float] = None,
+        animation_sound: Optional[str] = None,
+        stum_time: Optional[float] = None,
+    ):
+        super().__init__(
+            name=name,
+            icon=icon,
+            anination_image=anination_image,
+            animation_time=animation_time,
+            animation_sound=animation_sound,
+        )
+
+        self.health_damage = health_damage
+        self.stamina_damage = stamina_damage
+        self.stum_time = stum_time
+
+    @property
+    def health_damage(self) -> int:
+        """The health damage of the move."""
+        return self._health_damage
+
+    @health_damage.setter
+    def health_damage(self, value: int):
+        self._health_damage = value
+
+    @property
+    def stamina_damage(self) -> int:
+        """The stamina damage of the move."""
+        return self._stamina_damage
+
+    @stamina_damage.setter
+    def stamina_damage(self, value: int):
+        self._stamina_damage = value
+
+    @property
+    def stum_time(self) -> float:
+        """The stun time of the move."""
+        if self._stum_time is None:
+            return 0.0
+        return self._stum_time
+
+    @stum_time.setter
+    def stum_time(self, value: Optional[float]):
+        self._stum_time = value
