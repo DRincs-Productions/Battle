@@ -2,3 +2,7 @@
 	path = pythonpackages/extra_animated_value
 	url = https://github.com/DRincs-Productions/extra-animated-value
 	branch = python-lib
+[submodule "game/screens_style"]
+	path = game/screens_style
+	url = https://github.com/DRincs-Productions/renpy-screens-style
+	branch = main
