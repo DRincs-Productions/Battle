@@ -152,8 +152,8 @@ class DefenseMove(FightingMove):
         anination_image: str,
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
-        life_resistance_percentage: Optional[float] = None,
-        stamina_resistance_percentage: Optional[float] = None,
+        health_resistance: Optional[int] = None,
+        stamina_resistance: Optional[int] = None,
     ):
         super().__init__(
             name=name,
@@ -165,36 +165,36 @@ class DefenseMove(FightingMove):
             can_be_pressed=True,
         )
 
-        self.life_resistance_percentage = life_resistance_percentage
-        self.stamina_resistance_percentage = stamina_resistance_percentage
+        self.health_resistance = health_resistance
+        self.stamina_resistance = stamina_resistance
 
     @property
-    def life_resistance_percentage(self) -> float:
+    def health_resistance(self) -> int:
         """
-        The life resistance percentage of the move.
-        Default is 100%.
+        The health resistance of the move.
+        Default is 999999.
         """
-        if self._life_resistance_percentage is None:
-            return 100.0
-        return self._life_resistance_percentage
+        if self._health_resistance is None:
+            return 999999
+        return self._health_resistance
 
-    @life_resistance_percentage.setter
-    def life_resistance_percentage(self, value: Optional[float]):
-        self._life_resistance_percentage = value
+    @health_resistance.setter
+    def health_resistance(self, value: Optional[int]):
+        self._health_resistance = value
 
     @property
-    def stamina_resistance_percentage(self) -> float:
+    def stamina_resistance(self) -> int:
         """
-        The stamina resistance percentage of the move.
-        Default is 0%.
+        The stamina resistance of the move.
+        Default is 0.
         """
-        if self._stamina_resistance_percentage is None:
-            return 0.0
-        return self._stamina_resistance_percentage
+        if self._stamina_resistance is None:
+            return 0
+        return self._stamina_resistance
 
-    @stamina_resistance_percentage.setter
-    def stamina_resistance_percentage(self, value: Optional[float]):
-        self._stamina_resistance_percentage = value
+    @stamina_resistance.setter
+    def stamina_resistance(self, value: Optional[int]):
+        self._stamina_resistance = value
 
 
 class DodgeMove(FightingMove):
