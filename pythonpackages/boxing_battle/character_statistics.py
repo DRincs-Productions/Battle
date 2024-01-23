@@ -1,4 +1,9 @@
-from pythonpackages.boxing_battle.fighting_move import AttackMove, DefenseMove
+from typing import Optional
+from pythonpackages.boxing_battle.fighting_move import (
+    AttackMove,
+    DefenseMove,
+    FightingMove,
+)
 
 
 class FightingStatistics:
@@ -91,3 +96,105 @@ class FightingStatistics:
         self.stamina += int(amt)
         if self.stamina > self.max_stamina:
             self.stamina = self.max_stamina
+
+
+class PlayerStatistics(FightingStatistics):
+    def __init__(
+        self,
+        health: int,
+        stamina: int,
+        recovery_percentage_stamina: float,
+        x_button: Optional[FightingMove] = None,
+        y_button: Optional[FightingMove] = None,
+        a_button: Optional[FightingMove] = None,
+        b_button: Optional[FightingMove] = None,
+        up_button: Optional[FightingMove] = None,
+        down_button: Optional[FightingMove] = None,
+        left_button: Optional[FightingMove] = None,
+        right_button: Optional[FightingMove] = None,
+    ):
+        super().__init__(
+            health,
+            stamina,
+            recovery_percentage_stamina,
+        )
+        self.x_button = x_button
+        self.y_button = y_button
+        self.a_button = a_button
+        self.b_button = b_button
+        self.up_button = up_button
+        self.down_button = down_button
+        self.left_button = left_button
+        self.right_button = right_button
+
+    @property
+    def x_button(self) -> Optional[FightingMove]:
+        """The x button move."""
+        return self._x_button
+
+    @x_button.setter
+    def x_button(self, value: Optional[FightingMove]):
+        self._x_button = value
+
+    @property
+    def y_button(self) -> Optional[FightingMove]:
+        """The y button move."""
+        return self._y_button
+
+    @y_button.setter
+    def y_button(self, value: Optional[FightingMove]):
+        self._y_button = value
+
+    @property
+    def a_button(self) -> Optional[FightingMove]:
+        """The a button move."""
+        return self._a_button
+
+    @a_button.setter
+    def a_button(self, value: Optional[FightingMove]):
+        self._a_button = value
+
+    @property
+    def b_button(self) -> Optional[FightingMove]:
+        """The b button move."""
+        return self._b_button
+
+    @b_button.setter
+    def b_button(self, value: Optional[FightingMove]):
+        self._b_button = value
+
+    @property
+    def up_button(self) -> Optional[FightingMove]:
+        """The up button move."""
+        return self._up_button
+
+    @up_button.setter
+    def up_button(self, value: Optional[FightingMove]):
+        self._up_button = value
+
+    @property
+    def down_button(self) -> Optional[FightingMove]:
+        """The down button move."""
+        return self._down_button
+
+    @down_button.setter
+    def down_button(self, value: Optional[FightingMove]):
+        self._down_button = value
+
+    @property
+    def left_button(self) -> Optional[FightingMove]:
+        """The left button move."""
+        return self._left_button
+
+    @left_button.setter
+    def left_button(self, value: Optional[FightingMove]):
+        self._left_button = value
+
+    @property
+    def right_button(self) -> Optional[FightingMove]:
+        """The right button move."""
+        return self._right_button
+
+    @right_button.setter
+    def right_button(self, value: Optional[FightingMove]):
+        self._right_button = value
