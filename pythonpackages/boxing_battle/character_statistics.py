@@ -301,3 +301,139 @@ class PlayerStatistics(FightingStatistics):
         self.down_enabled = True
         self.left_enabled = True
         self.right_enabled = True
+
+
+class OpponentStatistics(FightingStatistics):
+    def __init__(
+        self,
+        health: int,
+        stamina: int,
+        recovery_percentage_stamina: float,
+        defense_list: list[DefenseMove],
+        attack_list: list[AttackMove],
+        dodge_list: list[DefenseMove],
+        state_time_defense_percentage: float = 30,
+        aggression_percentage: float = 30,
+        minimal_repeated_hits: int = 3,
+        maximal_repeated_hits: int = 5,
+        minimal_time_between_hits: float = 0.2,
+        maximal_time_between_hits: float = 0.5,
+        dodge_probability: float = 30,
+        backlash_probability: float = 30,
+    ):
+        super().__init__(
+            health,
+            stamina,
+            recovery_percentage_stamina,
+        )
+
+        self.defense_list = defense_list
+        self.attack_list = attack_list
+        self.dodge_list = dodge_list
+        self.state_time_defense_percentage = state_time_defense_percentage
+        self.aggression_percentage = aggression_percentage
+        self.minimal_repeated_hits = minimal_repeated_hits
+        self.maximal_repeated_hits = maximal_repeated_hits
+        self.minimal_time_between_hits = minimal_time_between_hits
+        self.maximal_time_between_hits = maximal_time_between_hits
+        self.dodge_probability = dodge_probability
+        self.backlash_probability = backlash_probability
+
+    @property
+    def defense_list(self) -> list[DefenseMove]:
+        """The defense list of the opponent."""
+        return self._defense_list
+
+    @defense_list.setter
+    def defense_list(self, value: list[DefenseMove]):
+        self._defense_list = value
+
+    @property
+    def attack_list(self) -> list[AttackMove]:
+        """The attack list of the opponent."""
+        return self._attack_list
+
+    @attack_list.setter
+    def attack_list(self, value: list[AttackMove]):
+        self._attack_list = value
+
+    @property
+    def dodge_list(self) -> list[DefenseMove]:
+        """The dodge list of the opponent."""
+        return self._dodge_list
+
+    @dodge_list.setter
+    def dodge_list(self, value: list[DefenseMove]):
+        self._dodge_list = value
+
+    @property
+    def state_time_defense_percentage(self) -> float:
+        """The state time defense percentage of the opponent."""
+        return self._state_time_defense_percentage
+
+    @state_time_defense_percentage.setter
+    def state_time_defense_percentage(self, value: float):
+        self._state_time_defense_percentage = value
+
+    @property
+    def aggression_percentage(self) -> float:
+        """The aggression percentage of the opponent."""
+        return self._aggression_percentage
+
+    @aggression_percentage.setter
+    def aggression_percentage(self, value: float):
+        self._aggression_percentage = value
+
+    @property
+    def minimal_repeated_hits(self) -> int:
+        """The minimal repeated hits of the opponent."""
+        return self._minimal_repeated_hits
+
+    @minimal_repeated_hits.setter
+    def minimal_repeated_hits(self, value: int):
+        self._minimal_repeated_hits = value
+
+    @property
+    def maximal_repeated_hits(self) -> int:
+        """The maximal repeated hits of the opponent."""
+        return self._maximal_repeated_hits
+
+    @maximal_repeated_hits.setter
+    def maximal_repeated_hits(self, value: int):
+        self._maximal_repeated_hits = value
+
+    @property
+    def minimal_time_between_hits(self) -> float:
+        """The minimal time between hits of the opponent."""
+        return self._minimal_time_between_hits
+
+    @minimal_time_between_hits.setter
+    def minimal_time_between_hits(self, value: float):
+        self._minimal_time_between_hits = value
+
+    @property
+    def maximal_time_between_hits(self) -> float:
+        """The maximal time between hits of the opponent."""
+        return self._maximal_time_between_hits
+
+    @maximal_time_between_hits.setter
+    def maximal_time_between_hits(self, value: float):
+        self._maximal_time_between_hits = value
+
+    @property
+    def dodge_probability(self) -> float:
+        """The dodge probability of the opponent."""
+        return self._dodge_probability
+
+    @dodge_probability.setter
+    def dodge_probability(self, value: float):
+        self._dodge_probability = value
+
+    @property
+    def backlash_probability(self) -> float:
+        """The backlash probability of the opponent."""
+        return self._backlash_probability
+
+    @backlash_probability.setter
+    def backlash_probability(self, value: float):
+        self._backlash_probability = value
