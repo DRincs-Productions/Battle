@@ -1,3 +1,6 @@
+from pythonpackages.boxing_battle.fighting_move import AttackMove, DefenseMove
+
+
 class FightingStatistics:
     def __init__(
         self,
@@ -24,3 +27,19 @@ class FightingStatistics:
     @strength.setter
     def strength(self, value: int):
         self._strength = value
+
+    def dannage(
+        self,
+        rival_attack: AttackMove,
+        defense: DefenseMove,
+    ):
+        """Calculate the damage of the attack."""
+        stamina_damage = rival_attack.stamina_damage - defense.stamina_resistance
+        health_damage = rival_attack.health_damage - defense.health_resistance
+        if stamina_damage < 0:
+            stamina_damage = 0
+        if health_damage < 0:
+            health_damage = 0
+
+        self.health -= health_damage
+        self.strength -= stamina_damage
