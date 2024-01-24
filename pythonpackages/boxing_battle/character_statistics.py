@@ -1,3 +1,4 @@
+import random
 from typing import Optional
 from pythonpackages.boxing_battle.fighting_move import (
     AttackMove,
@@ -320,6 +321,8 @@ class OpponentStatistics(FightingStatistics):
         maximal_time_between_hits: float = 0.5,
         dodge_probability: float = 30,
         backlash_probability: float = 30,
+        maximum_thinking_time: float = 1,
+        minimal_thinking_time: float = 0.5,
     ):
         super().__init__(
             health,
@@ -338,6 +341,8 @@ class OpponentStatistics(FightingStatistics):
         self.maximal_time_between_hits = maximal_time_between_hits
         self.dodge_probability = dodge_probability
         self.backlash_probability = backlash_probability
+        self.maximum_thinking_time = maximum_thinking_time
+        self.minimal_thinking_time = minimal_thinking_time
 
     @property
     def defense_list(self) -> list[DefenseMove]:
@@ -349,6 +354,11 @@ class OpponentStatistics(FightingStatistics):
         self._defense_list = value
 
     @property
+    def random_defense(self) -> DefenseMove:
+        """Return a random defense move."""
+        return random.choice(self.defense_list)
+
+    @property
     def attack_list(self) -> list[AttackMove]:
         """The attack list of the opponent."""
         return self._attack_list
@@ -356,6 +366,11 @@ class OpponentStatistics(FightingStatistics):
     @attack_list.setter
     def attack_list(self, value: list[AttackMove]):
         self._attack_list = value
+
+    @property
+    def random_attack(self) -> AttackMove:
+        """Return a random attack move."""
+        return random.choice(self.attack_list)
 
     @property
     def dodge_list(self) -> list[DefenseMove]:
@@ -437,3 +452,29 @@ class OpponentStatistics(FightingStatistics):
     @backlash_probability.setter
     def backlash_probability(self, value: float):
         self._backlash_probability = value
+
+    @property
+    def maximum_thinking_time(self) -> float:
+        """The maximum thinking time of the opponent."""
+        return self._maximum_thinking_time
+
+    @maximum_thinking_time.setter
+    def maximum_thinking_time(self, value: float):
+        self._maximum_thinking_time = value
+
+    @property
+    def minimal_thinking_time(self) -> float:
+        """The minimal thinking time of the opponent."""
+        return self._minimal_thinking_time
+
+    @minimal_thinking_time.setter
+    def minimal_thinking_time(self, value: float):
+        self._minimal_thinking_time = value
+
+    @property
+    def random_thinking_time(self) -> float:
+        """Return a random thinking time."""
+        return random.uniform(
+            self.minimal_thinking_time,
+            self.maximum_thinking_time,
+        )
