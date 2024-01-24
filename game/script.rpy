@@ -37,6 +37,7 @@ label start:
         defense = DefenseMove(
             name = "Block",
             icon = "icon block",
+            animation_image = "opponent block",
         )
         opp = OpponentStatistics(
             health = 100,
@@ -46,7 +47,7 @@ label start:
             damage_imaged = "opponent damage",
             defense = defense,
         )
-    show screen boxing_battle_opponent()
+    show screen boxing_battle_opponent(opp)
 
     ""
 

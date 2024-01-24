@@ -91,12 +91,12 @@ class FightingStatistics:
         self._damage_imaged = value
 
     @property
-    def current_sate(self) -> FightingState:
+    def current_state(self) -> FightingState:
         """The current state of the character."""
         return self._current_state
 
-    @current_sate.setter
-    def current_sate(self, value: FightingState):
+    @current_state.setter
+    def current_state(self, value: FightingState):
         self._current_state = value
 
     def dannage(
@@ -561,17 +561,17 @@ class OpponentStatistics(FightingStatistics):
     def get_image(self, state: Optional[FightingMove] = None) -> str:
         """Return the image of the opponent."""
         if state is None:
-            if self.current_sate == FightingState.DAMAGED:
+            if self.current_state == FightingState.DAMAGED:
                 return self.damage_imaged
             else:
                 return self.idle_image
         return state.animation_image
 
-    def get_move(self, current_move: FightingMove) -> Optional[FightingMove]:
+    def get_move(self, current_move: Optional[FightingMove]) -> Optional[FightingMove]:
         """Return the move of the opponent."""
-        if self.current_sate == FightingState.DAMAGED:
+        if self.current_state == FightingState.DAMAGED:
             return self.random_defense
-        if self.current_sate == FightingState.ATTACK:
+        if self.current_state == FightingState.ATTACK:
             return current_move
         # random attack
         if random.randint(0, 100) < self.aggression_percentage:
