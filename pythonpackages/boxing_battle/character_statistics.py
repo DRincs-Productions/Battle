@@ -353,7 +353,7 @@ class OpponentStatistics(FightingStatistics):
         defense_list: list[DefenseMove],
         attack_list: list[AttackMove],
         dodge_list: list[DodgeMove],
-        state_time_defense_percentage: float = 30,
+        defensive_percentage: float = 30,
         aggression_percentage: float = 30,
         minimal_repeated_hits: int = 3,
         maximal_repeated_hits: int = 5,
@@ -375,7 +375,7 @@ class OpponentStatistics(FightingStatistics):
         self.defense_list = defense_list
         self.attack_list = attack_list
         self.dodge_list = dodge_list
-        self.state_time_defense_percentage = state_time_defense_percentage
+        self.defensive_percentage = defensive_percentage
         self.aggression_percentage = aggression_percentage
         self.minimal_repeated_hits = minimal_repeated_hits
         self.maximal_repeated_hits = maximal_repeated_hits
@@ -385,6 +385,7 @@ class OpponentStatistics(FightingStatistics):
         self.backlash_probability = backlash_probability
         self.maximum_thinking_time = maximum_thinking_time
         self.minimal_thinking_time = minimal_thinking_time
+        self.current_hit_number = None
 
     @property
     def defense_list(self) -> list[DefenseMove]:
@@ -424,13 +425,13 @@ class OpponentStatistics(FightingStatistics):
         self._dodge_list = value
 
     @property
-    def state_time_defense_percentage(self) -> float:
+    def defensive_percentage(self) -> float:
         """The state time defense percentage of the opponent."""
-        return self._state_time_defense_percentage
+        return self._defensive_percentage
 
-    @state_time_defense_percentage.setter
-    def state_time_defense_percentage(self, value: float):
-        self._state_time_defense_percentage = value
+    @defensive_percentage.setter
+    def defensive_percentage(self, value: float):
+        self._defensive_percentage = value
 
     @property
     def aggression_percentage(self) -> float:
@@ -460,6 +461,14 @@ class OpponentStatistics(FightingStatistics):
         self._maximal_repeated_hits = value
 
     @property
+    def random_repeated_hits(self) -> int:
+        """Return a random repeated hits."""
+        return random.randint(
+            self.minimal_repeated_hits,
+            self.maximal_repeated_hits,
+        )
+
+    @property
     def minimal_time_between_hits(self) -> float:
         """The minimal time between hits of the opponent."""
         return self._minimal_time_between_hits
@@ -476,6 +485,14 @@ class OpponentStatistics(FightingStatistics):
     @maximal_time_between_hits.setter
     def maximal_time_between_hits(self, value: float):
         self._maximal_time_between_hits = value
+
+    @property
+    def random_time_between_hits(self) -> float:
+        """Return a random time between hits."""
+        return random.uniform(
+            self.minimal_time_between_hits,
+            self.maximal_time_between_hits,
+        )
 
     @property
     def dodge_probability(self) -> float:
@@ -521,6 +538,17 @@ class OpponentStatistics(FightingStatistics):
             self.maximum_thinking_time,
         )
 
+    @property
+    def current_hit_number(self) -> int:
+        """The current hit of the opponent."""
+        if self._current_hit_number is None:
+            return 0
+        return self._current_hit_number
+
+    @current_hit_number.setter
+    def current_hit_number(self, value: Optional[int]):
+        self._current_hit_number = value
+
     def get_image(self, state: Optional[FightingMove] = None) -> str:
         """Return the image of the opponent."""
         if state is None:
@@ -529,3 +557,24 @@ class OpponentStatistics(FightingStatistics):
             else:
                 return self.idle_image
         return state.animation_image
+
+    def get_move(
+        self, current_move: FightingMove, player_move: FightingMove
+    ) -> Optional[FightingMove]:
+        """Return the move of the opponent."""
+        if self.current_sate == FightingState.DAMAGED:
+            return self.random_defense
+        if self.current_sate == FightingState.ATTACK:
+            return current_move
+        if self.current_sate == FightingState.DEFENSE:
+            # random attack
+            if random.randint(0, 100) < self.aggression_percentage:
+                return self.random_attack
+        if self.current_sate == FightingState.IDLE:
+            # random attack
+            if random.randint(0, 100) < self.aggression_percentage:
+                return self.random_attack
+            # random defanse
+            if random.randint(0, 100) < self.defensive_percentage:
+                return self.random_defense
+        return None
