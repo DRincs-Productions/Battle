@@ -1,5 +1,5 @@
 import random
-from typing import Optional
+from typing import Optional, Union
 from pythonpackages.boxing_battle.fighting_move import (
     AttackMove,
     DefenseMove,
@@ -350,9 +350,9 @@ class OpponentStatistics(FightingStatistics):
         recovery_percentage_stamina: float,
         idle_image: str,
         damage_imaged: str,
-        defense_list: list[DefenseMove],
-        attack_list: list[AttackMove],
-        dodge_list: list[DodgeMove],
+        defense: Union[list[DefenseMove], DefenseMove] = [],
+        attack: Union[list[AttackMove], AttackMove] = [],
+        dodge: Union[list[DodgeMove], DodgeMove] = [],
         defensive_percentage: float = 30,
         aggression_percentage: float = 30,
         minimal_repeated_hits: int = 3,
@@ -371,10 +371,15 @@ class OpponentStatistics(FightingStatistics):
             idle_image,
             damage_imaged,
         )
-
-        self.defense_list = defense_list
-        self.attack_list = attack_list
-        self.dodge_list = dodge_list
+        if isinstance(defense, DefenseMove):
+            defense = [defense]
+        self.defense_list = defense
+        if isinstance(attack, AttackMove):
+            attack = [attack]
+        self.attack_list = attack
+        if isinstance(dodge, DodgeMove):
+            dodge = [dodge]
+        self.dodge_list = dodge
         self.defensive_percentage = defensive_percentage
         self.aggression_percentage = aggression_percentage
         self.minimal_repeated_hits = minimal_repeated_hits
