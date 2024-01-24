@@ -30,4 +30,24 @@ label start:
 
     # This ends the game.
 
+    python:
+        from pythonpackages.boxing_battle.fighting_move import DefenseMove
+        from pythonpackages.boxing_battle.character_statistics import OpponentStatistics
+
+        defense = DefenseMove(
+            name = "Block",
+            icon = "icon block",
+        )
+        opp = OpponentStatistics(
+            health = 100,
+            stamina = 100,
+            recovery_percentage_stamina = 0.1,
+            idle_image = "opponent idle",
+            damage_imaged = "opponent damage",
+            defense = defense,
+        )
+    show screen boxing_battle_opponent()
+
+    ""
+
     return
