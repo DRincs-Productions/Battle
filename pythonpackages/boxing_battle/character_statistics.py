@@ -397,8 +397,10 @@ class OpponentStatistics(FightingStatistics):
         self._defense_list = value
 
     @property
-    def random_defense(self) -> DefenseMove:
+    def random_defense(self) -> Optional[DefenseMove]:
         """Return a random defense move."""
+        if len(self.defense_list) == 0:
+            return None
         return random.choice(self.defense_list)
 
     @property
@@ -411,8 +413,10 @@ class OpponentStatistics(FightingStatistics):
         self._attack_list = value
 
     @property
-    def random_attack(self) -> AttackMove:
+    def random_attack(self) -> Optional[AttackMove]:
         """Return a random attack move."""
+        if len(self.attack_list) == 0:
+            return None
         return random.choice(self.attack_list)
 
     @property
@@ -558,23 +562,22 @@ class OpponentStatistics(FightingStatistics):
                 return self.idle_image
         return state.animation_image
 
-    def get_move(
-        self, current_move: FightingMove, player_move: FightingMove
-    ) -> Optional[FightingMove]:
+    def get_move(self, current_move: FightingMove) -> Optional[FightingMove]:
         """Return the move of the opponent."""
         if self.current_sate == FightingState.DAMAGED:
             return self.random_defense
         if self.current_sate == FightingState.ATTACK:
             return current_move
-        if self.current_sate == FightingState.DEFENSE:
-            # random attack
-            if random.randint(0, 100) < self.aggression_percentage:
-                return self.random_attack
-        if self.current_sate == FightingState.IDLE:
-            # random attack
-            if random.randint(0, 100) < self.aggression_percentage:
-                return self.random_attack
-            # random defanse
-            if random.randint(0, 100) < self.defensive_percentage:
-                return self.random_defense
+        # random attack
+        if random.randint(0, 100) < self.aggression_percentage:
+            move = self.random_attack
+            if move is not None and self.stamina >= move.stamina_damage:
+                self.current_hit_number = 1
+                self.stamina -= move.stamina_damage
+                return move
+        # random defanse
+        if random.randint(0, 100) < self.defensive_percentage:
+            move = self.random_defense
+            if move is not None:
+                return move
         return None

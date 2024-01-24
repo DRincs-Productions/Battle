@@ -95,6 +95,7 @@ class AttackMove(FightingMove):
         health_damage: int,
         stamina_damage: int,
         animation_image: str,
+        required_stamina: int,
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
         stum_time: Optional[float] = None,
@@ -112,6 +113,7 @@ class AttackMove(FightingMove):
         self.health_damage = health_damage
         self.stamina_damage = stamina_damage
         self.stum_time = stum_time
+        self.required_stamina = required_stamina
 
     @property
     def health_damage(self) -> int:
@@ -141,6 +143,15 @@ class AttackMove(FightingMove):
     @stum_time.setter
     def stum_time(self, value: Optional[float]):
         self._stum_time = value
+
+    @property
+    def required_stamina(self) -> int:
+        """The required stamina of the move."""
+        return self._required_stamina
+
+    @required_stamina.setter
+    def required_stamina(self, value: int):
+        self._required_stamina = value
 
 
 class DefenseMove(FightingMove):
