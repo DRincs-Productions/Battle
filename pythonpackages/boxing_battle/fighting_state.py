@@ -2,6 +2,6 @@ from enum import Enum
 
 
 class FightingState(Enum):
-    Attack = 0
-    Defense = 1
-    Idle = 2
+    ATTACK = 0
+    DEFENSE = 1
+    IDLE = 2
