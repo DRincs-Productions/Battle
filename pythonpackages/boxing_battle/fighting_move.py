@@ -7,7 +7,7 @@ class FightingMove:
         name: str,
         icon: str,
         key: str,
-        anination_image: str,
+        animation_image: str,
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
         can_be_pressed: bool = True,
@@ -15,7 +15,7 @@ class FightingMove:
         self.name = name
         self.icon = icon
         self.key = key
-        self.animation_image = anination_image
+        self.animation_image = animation_image
         self.animation_time = animation_time
         self.animation_sound = animation_sound
         self.can_be_pressed = can_be_pressed
@@ -94,7 +94,7 @@ class AttackMove(FightingMove):
         key: str,
         health_damage: int,
         stamina_damage: int,
-        anination_image: str,
+        animation_image: str,
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
         stum_time: Optional[float] = None,
@@ -103,7 +103,7 @@ class AttackMove(FightingMove):
             name=name,
             icon=icon,
             key=key,
-            anination_image=anination_image,
+            animation_image=animation_image,
             animation_time=animation_time,
             animation_sound=animation_sound,
             can_be_pressed=False,
@@ -149,7 +149,7 @@ class DefenseMove(FightingMove):
         name: str,
         icon: str,
         key: str,
-        anination_image: str,
+        animation_image: str,
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
         health_resistance: Optional[int] = None,
@@ -159,7 +159,7 @@ class DefenseMove(FightingMove):
             name=name,
             icon=icon,
             key=key,
-            anination_image=anination_image,
+            animation_image=animation_image,
             animation_time=animation_time,
             animation_sound=animation_sound,
             can_be_pressed=True,
@@ -204,14 +204,14 @@ class DodgeMove(FightingMove):
         icon: str,
         key: str,
         effect_time: float,
-        anination_image: str,
+        animation_image: str,
         animation_sound: Optional[str] = None,
     ):
         super().__init__(
             name=name,
             icon=icon,
             key=key,
-            anination_image=anination_image,
+            animation_image=animation_image,
             animation_time=effect_time,
             animation_sound=animation_sound,
             can_be_pressed=False,

@@ -3,8 +3,10 @@ from typing import Optional
 from pythonpackages.boxing_battle.fighting_move import (
     AttackMove,
     DefenseMove,
+    DodgeMove,
     FightingMove,
 )
+from pythonpackages.boxing_battle.fighting_state import FightingState
 
 
 class FightingStatistics:
@@ -13,12 +15,17 @@ class FightingStatistics:
         health: int,
         stamina: int,
         recovery_percentage_stamina: float,
+        idle_image: str,
+        damage_imaged: str,
     ):
         self.health = health
         self.stamina = stamina
         self.max_health = health
         self.max_stamina = stamina
         self.recovery_percentage_stamina = recovery_percentage_stamina
+        self.idle_image = idle_image
+        self.damage_imaged = damage_imaged
+        self.current_state = FightingState.IDLE
 
     @property
     def health(self) -> int:
@@ -65,6 +72,33 @@ class FightingStatistics:
     def recovery_percentage_stamina(self, value: float):
         self._recovery_percentage_stamina = value
 
+    @property
+    def idle_image(self) -> str:
+        """The idle image of the character."""
+        return self._idle_image
+
+    @idle_image.setter
+    def idle_image(self, value: str):
+        self._idle_image = value
+
+    @property
+    def damage_imaged(self) -> str:
+        """The damage image of the character."""
+        return self._damage_imaged
+
+    @damage_imaged.setter
+    def damage_imaged(self, value: str):
+        self._damage_imaged = value
+
+    @property
+    def current_sate(self) -> FightingState:
+        """The current state of the character."""
+        return self._current_state
+
+    @current_sate.setter
+    def current_sate(self, value: FightingState):
+        self._current_state = value
+
     def dannage(
         self,
         rival_attack: AttackMove,
@@ -105,6 +139,8 @@ class PlayerStatistics(FightingStatistics):
         health: int,
         stamina: int,
         recovery_percentage_stamina: float,
+        idle_image: str,
+        damage_imaged: str,
         x_button: Optional[FightingMove] = None,
         y_button: Optional[FightingMove] = None,
         a_button: Optional[FightingMove] = None,
@@ -118,6 +154,8 @@ class PlayerStatistics(FightingStatistics):
             health,
             stamina,
             recovery_percentage_stamina,
+            idle_image,
+            damage_imaged,
         )
         self.x_button = x_button
         self.y_button = y_button
@@ -310,9 +348,11 @@ class OpponentStatistics(FightingStatistics):
         health: int,
         stamina: int,
         recovery_percentage_stamina: float,
+        idle_image: str,
+        damage_imaged: str,
         defense_list: list[DefenseMove],
         attack_list: list[AttackMove],
-        dodge_list: list[DefenseMove],
+        dodge_list: list[DodgeMove],
         state_time_defense_percentage: float = 30,
         aggression_percentage: float = 30,
         minimal_repeated_hits: int = 3,
@@ -328,6 +368,8 @@ class OpponentStatistics(FightingStatistics):
             health,
             stamina,
             recovery_percentage_stamina,
+            idle_image,
+            damage_imaged,
         )
 
         self.defense_list = defense_list
@@ -373,12 +415,12 @@ class OpponentStatistics(FightingStatistics):
         return random.choice(self.attack_list)
 
     @property
-    def dodge_list(self) -> list[DefenseMove]:
+    def dodge_list(self) -> list[DodgeMove]:
         """The dodge list of the opponent."""
         return self._dodge_list
 
     @dodge_list.setter
-    def dodge_list(self, value: list[DefenseMove]):
+    def dodge_list(self, value: list[DodgeMove]):
         self._dodge_list = value
 
     @property
@@ -478,3 +520,12 @@ class OpponentStatistics(FightingStatistics):
             self.minimal_thinking_time,
             self.maximum_thinking_time,
         )
+
+    def get_image(self, state: Optional[FightingMove] = None) -> str:
+        """Return the image of the opponent."""
+        if state is None:
+            if self.current_sate == FightingState.DAMAGED:
+                return self.damage_imaged
+            else:
+                return self.idle_image
+        return state.animation_image
