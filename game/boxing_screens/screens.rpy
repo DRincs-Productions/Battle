@@ -1,5 +1,4 @@
-﻿default opponent_is_in_defence = False
-default opponent_is_in_attack = False
+﻿default opponent_state = "defense"
 
 screen boxing_battle(player_statistics, opponent_statistics):
     # ...
