@@ -361,8 +361,8 @@ class OpponentStatistics(FightingStatistics):
         maximal_time_between_hits: float = 0.5,
         dodge_probability: float = 30,
         backlash_probability: float = 30,
-        maximum_thinking_time: float = 1,
-        minimal_thinking_time: float = 0.5,
+        maximum_thinking_time: float = 4,
+        minimal_thinking_time: float = 1,
     ):
         super().__init__(
             health,
@@ -585,4 +585,4 @@ class OpponentStatistics(FightingStatistics):
             move = self.random_defense
             if move is not None:
                 return move
-        return None
+        return self.random_defense
