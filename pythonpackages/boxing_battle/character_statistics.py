@@ -585,4 +585,4 @@ class OpponentStatistics(FightingStatistics):
             move = self.random_defense
             if move is not None:
                 return move
-        return self.random_defense
+        return None

@@ -11,13 +11,21 @@ define e = Character("Eileen")
 label start:
 
     python:
-        from pythonpackages.boxing_battle.fighting_move import DefenseMove
+        from pythonpackages.boxing_battle.fighting_move import DefenseMove, AttackMove
         from pythonpackages.boxing_battle.character_statistics import OpponentStatistics
 
         defense = DefenseMove(
             name = "Block",
             icon = "icon block",
             animation_image = "opponent block",
+        )
+        attack = AttackMove(
+            name = "Punch",
+            icon = "icon punch",
+            animation_image = "opponent attack",
+            health_damage = 10,
+            stamina_damage = 10,
+            required_stamina = 10,
         )
         opp = OpponentStatistics(
             health = 100,
@@ -26,6 +34,7 @@ label start:
             idle_image = "opponent idle",
             damage_imaged = "opponent damage",
             defense = defense,
+            attack = attack,
         )
     call screen boxing_battle_opponent(opp)
     pause
