@@ -7,6 +7,7 @@ from pythonpackages.boxing_battle.fighting_move import (
     FightingMove,
 )
 from pythonpackages.boxing_battle.fighting_state import FightingState
+from pythonpackages.renpy_utility.renpy_custom_log import log_warn
 
 
 class FightingStatistics:
@@ -391,6 +392,7 @@ class OpponentStatistics(FightingStatistics):
         self.maximum_thinking_time = maximum_thinking_time
         self.minimal_thinking_time = minimal_thinking_time
         self.current_hit_number = None
+        self.current_move = None
 
     @property
     def defense_list(self) -> list[DefenseMove]:
@@ -558,31 +560,63 @@ class OpponentStatistics(FightingStatistics):
     def current_hit_number(self, value: Optional[int]):
         self._current_hit_number = value
 
-    def get_image(self, state: Optional[FightingMove] = None) -> str:
+    @property
+    def current_move(self) -> Optional[FightingMove]:
+        """The current move of the opponent."""
+        return self._current_move
+
+    @current_move.setter
+    def current_move(self, value: Optional[FightingMove]):
+        self._current_move = value
+
+    @property
+    def image(self) -> str:
         """Return the image of the opponent."""
-        if state is None:
+        if self.current_move is None:
             if self.current_state == FightingState.DAMAGED:
                 return self.damage_imaged
             else:
                 return self.idle_image
-        return state.animation_image
+        return self.current_move.animation_image
 
-    def get_move(self, current_move: Optional[FightingMove]) -> Optional[FightingMove]:
+    def update_move(self) -> Optional[FightingMove]:
         """Return the move of the opponent."""
         if self.current_state == FightingState.DAMAGED:
             return self.random_defense
         if self.current_state == FightingState.ATTACK:
-            return current_move
+            return self.current_move
         # random attack
         if random.randint(0, 100) < self.aggression_percentage:
             move = self.random_attack
             if move is not None and self.stamina >= move.stamina_damage:
+                self.current_move = move
                 self.current_hit_number = 1
                 self.stamina -= move.stamina_damage
+                self.current_state = FightingState.ATTACK
                 return move
         # random defanse
         if random.randint(0, 100) < self.defensive_percentage:
             move = self.random_defense
             if move is not None:
+                self.current_move = move
+                self.current_state = FightingState.DEFENSE
                 return move
         return None
+
+    def add_hit(self):
+        """Add a hit to the opponent."""
+        if not isinstance(self.current_move, AttackMove):
+            log_warn(
+                "The current move is not an attack move.", "OpponentStatistics.add_hit"
+            )
+            return
+        if (
+            self.stamina >= self.current_move.stamina_damage
+            and self.current_hit_number <= self.random_repeated_hits
+        ):
+            self.stamina -= self.current_move.stamina_damage
+            self.current_hit_number += 1
+        else:
+            self.current_hit_number = 0
+            self.current_move = self.random_defense
+            self.current_state = FightingState.DEFENSE
