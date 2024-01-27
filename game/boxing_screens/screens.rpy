@@ -1,4 +1,4 @@
-﻿default opponent_image = None
+default opponent_image = None
 default a = None
 init python:
     from pythonpackages.boxing_battle.fighting_state import FightingState
@@ -16,6 +16,6 @@ screen boxing_battle_opponent(opponent_statistics):
             SetVariable("opponent_image", opponent_statistics.image),
         ]
     # if opponent_statistics.current_state == FightingState.ATTACK:
-    #     timer opponent_statistics.random_time_between_hits repeat opponent_statistics.current_state == FightingState.AttackMove action [
+    #     timer opponent_statistics.random_time_between_hits repeat opponent_statistics.current_state == FightingState.ATTACK action [
     #             Function(opponent_statistics.add_hit),
     #         ]
