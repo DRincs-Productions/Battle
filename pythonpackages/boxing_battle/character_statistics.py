@@ -579,6 +579,7 @@ class OpponentStatistics(FightingStatistics):
                 return self.idle_image
         return self.current_move.animation_image
 
+    @property
     def update_move(self) -> Optional[FightingMove]:
         """Return the move of the opponent."""
         if self.current_state == FightingState.DAMAGED:
