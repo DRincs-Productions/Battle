@@ -1,4 +1,4 @@
-default opponent_image = None
+﻿default opponent_image = None
 default a = None
 init python:
     from pythonpackages.boxing_battle.fighting_state import FightingState
@@ -12,7 +12,7 @@ screen boxing_battle_opponent(opponent):
 
     add opponent_image
     timer opponent.random_thinking_time repeat True action [
-            SetVariable("a", opponent.update_move),
+            SetVariable("a", opponent.update_move()),
             SetVariable("opponent_image", opponent.image),
         ]
     # if opponent.current_state == FightingState.ATTACK:

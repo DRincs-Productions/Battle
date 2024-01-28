@@ -1,4 +1,4 @@
-﻿# The script of the game goes in this file.
+# The script of the game goes in this file.
 
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
@@ -37,7 +37,6 @@ label start:
             attack = attack,
         )
     call screen boxing_battle_opponent(opp)
-    pause
 
     # This ends the game.
 
