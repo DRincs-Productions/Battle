@@ -12,8 +12,9 @@ screen boxing_battle_opponent(opponent):
 
     add opponent_image
     timer opponent.random_thinking_time repeat True action [
-            SetVariable("a", opponent.update_move()),
+            Function(opponent.update_move),
             SetVariable("opponent_image", opponent.image),
+            Function(renpy.restart_interaction),
         ]
     # if opponent.current_state == FightingState.ATTACK:
     #     timer opponent.random_time_between_hits repeat opponent.current_state == FightingState.ATTACK action [

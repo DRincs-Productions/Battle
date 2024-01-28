@@ -583,9 +583,9 @@ class OpponentStatistics(FightingStatistics):
         """Return the move of the opponent."""
         if self.current_state == FightingState.DAMAGED:
             self.current_move = self.random_defense
-            return self.current_move
+            return
         if self.current_state == FightingState.ATTACK:
-            return self.current_move
+            return
         # random attack
         if random.randint(0, 100) < self.aggression_percentage:
             move = self.random_attack
@@ -594,16 +594,16 @@ class OpponentStatistics(FightingStatistics):
                 self.current_hit_number = 1
                 self.stamina -= move.stamina_damage
                 self.current_state = FightingState.ATTACK
-                return self.current_move
+                return
         # random defanse
         if random.randint(0, 100) < self.defensive_percentage:
             move = self.random_defense
             if move is not None:
                 self.current_move = move
                 self.current_state = FightingState.DEFENSE
-                return self.current_move
+                return
         self.current_move = None
-        return self.current_move
+        return
 
     def add_hit(self):
         """Add a hit to the opponent."""
