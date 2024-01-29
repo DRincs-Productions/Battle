@@ -12,7 +12,9 @@ screen boxing_battle_opponent(opponent):
             Function(opponent.update_move),
             Function(renpy.show, opponent.image),
         ]
-    # if opponent.current_state == FightingState.ATTACK:
-    #     timer opponent.random_time_between_hits repeat opponent.current_state == FightingState.ATTACK action [
-    #             Function(opponent.add_hit),
-    #         ]
+    if opponent.current_state == FightingState.ATTACK:
+        timer opponent.random_time_between_hits repeat opponent.current_state == FightingState.ATTACK action [
+                Function(renpy.hide, opponent.image),
+                Function(opponent.add_hit),
+                Function(renpy.show, opponent.image),
+            ]
