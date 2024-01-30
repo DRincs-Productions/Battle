@@ -1,9 +1,12 @@
 ﻿init python:
     from pythonpackages.boxing_battle.fighting_state import FightingState
 
-screen boxing_battle(player_statistics, opponent):
+screen boxing_battle(player_statistics, opponent, recover_time):
     # ...
     use boxing_battle_opponent(opponent)
+    timer recover_time repeat True action [
+            Function(opponent.recover_stamina),
+        ]
 
 screen boxing_battle_opponent(opponent):
     $ renpy.show(opponent.image)
