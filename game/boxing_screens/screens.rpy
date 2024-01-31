@@ -66,12 +66,12 @@ screen stamina_bar(my_bar):
     fixed:
         area (0,0, 400, 50)
         bar:
-            value bar_opponent_stamina
+            value my_bar
             left_bar "images/bar/health_bar_400x50_left.png"
             right_bar "images/bar/health_bar_400x50_right.png"
             area (0,0, 400, 50)
 
-        add bar_opponent_stamina.text(
+        add my_bar.text(
             "{0.current_value:.0f}/{0.range:.0f}",
             size = 22,
             color = "#DDE",
