@@ -22,7 +22,7 @@ screen boxing_battle(opponent, recover_time = 10):
         align (0.98, 0.02)
 
         use health_bar(bar_opponent_health)
-        use stamina_bar(bar_opponent_health)
+        use stamina_bar(bar_opponent_stamina)
 
     # ...
     use boxing_battle_opponent(opponent)
