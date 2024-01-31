@@ -12,7 +12,7 @@ label start:
 
     python:
         from pythonpackages.boxing_battle.fighting_move import DefenseMove, AttackMove
-        from pythonpackages.boxing_battle.character_statistics import OpponentStatistics
+        from pythonpackages.boxing_battle.character_statistics import OpponentStatistics, PlayerStatistics
 
         defense = DefenseMove(
             name = "Block",
@@ -36,7 +36,14 @@ label start:
             defense = defense,
             attack = attack,
         )
-    call screen boxing_battle(opp)
+        player = PlayerStatistics(
+            health = 100,
+            stamina = 100,
+            recovery_percentage_stamina = 30,
+            idle_image = "player idle",
+            damage_imaged = "player damage",
+        )
+    call screen boxing_battle(player, opp)
 
     # This ends the game.
 

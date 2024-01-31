@@ -3,14 +3,27 @@
     from pythonpackages.extra_animated_value.extra_animated_value import ExtraAnimatedValue
     from pythonpackages.extra_animated_value.value_image import ValueImage
 
-screen boxing_battle(opponent, recover_time = 10):
-    $ bar_opponent_health = ExtraAnimatedValue(
+screen boxing_battle(player, opponent, recover_time = 10):
+    python:
+        bar_player_health = ExtraAnimatedValue(
+            value=player.health, 
+            range=player.max_health, 
+            range_delay=3.0,
+            warper="ease_quart",
+        )
+        bar_player_stamina = ExtraAnimatedValue(
+            value=player.stamina, 
+            range=player.max_stamina, 
+            range_delay=3.0,
+            warper="ease_quart",
+        )
+        bar_opponent_health = ExtraAnimatedValue(
             value=opponent.health, 
             range=opponent.max_health, 
             range_delay=3.0,
             warper="ease_quart",
         )
-    $ bar_opponent_stamina = ExtraAnimatedValue(
+        bar_opponent_stamina = ExtraAnimatedValue(
             value=opponent.stamina, 
             range=opponent.max_stamina, 
             range_delay=3.0,
@@ -19,16 +32,25 @@ screen boxing_battle(opponent, recover_time = 10):
 
     vbox:
         spacing 10
-        align (0.98, 0.02)
+        align (0.02, 0.02)
+        use health_bar(bar_player_health)
+        use stamina_bar(bar_player_stamina)
 
+    vbox:
+        spacing 10
+        align (0.98, 0.02)
         use health_bar(bar_opponent_health)
         use stamina_bar(bar_opponent_stamina)
 
     # ...
     use boxing_battle_opponent(opponent)
+    use boxing_battle_player(player)
     timer recover_time repeat True action [
             Function(opponent.recover_stamina),
         ]
+
+screen boxing_battle_player(player):
+    $ renpy.show(player.idle_image)
 
 screen boxing_battle_opponent(opponent):
     $ renpy.show(opponent.image)
