@@ -1,7 +1,7 @@
 ﻿init python:
     from pythonpackages.boxing_battle.fighting_state import FightingState
 
-screen boxing_battle(player_statistics, opponent, recover_time):
+screen boxing_battle(opponent, recover_time = 10):
     # ...
     use boxing_battle_opponent(opponent)
     timer recover_time repeat True action [

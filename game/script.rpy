@@ -22,7 +22,7 @@ label start:
         attack = AttackMove(
             name = "Punch",
             icon = "icon punch",
-            animation_image = "opponent attack",
+            animation_image = ["opponent attack_a", "opponent attack_b"],
             health_damage = 10,
             stamina_damage = 10,
             required_stamina = 10,
@@ -30,13 +30,13 @@ label start:
         opp = OpponentStatistics(
             health = 100,
             stamina = 100,
-            recovery_percentage_stamina = 0.1,
+            recovery_percentage_stamina = 10,
             idle_image = "opponent idle",
             damage_imaged = "opponent damage",
             defense = defense,
             attack = attack,
         )
-    call screen boxing_battle_opponent(opp)
+    call screen boxing_battle(opp)
 
     # This ends the game.
 

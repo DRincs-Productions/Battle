@@ -3,7 +3,11 @@ image icon punch = "/boxing_interface/attack-0.webp"
 image opponent block = "defense_b.webp"
 image opponent idle = "idle_b.webp"
 image opponent damage = "dodge_b.webp"
-image opponent attack:
+image opponent attack_a:
     "attack_b.webp"
+    pause 0.2
+    "idle_b.webp"
+image opponent attack_b:
+    "defense_b.webp"
     pause 0.2
     "idle_b.webp"

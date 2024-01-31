@@ -128,7 +128,7 @@ class FightingStatistics:
 
     def recover_stamina(self):
         """Recover the stamina."""
-        amt = self.stamina * self.recovery_percentage_stamina / 100
+        amt = self.max_stamina * self.recovery_percentage_stamina / 100
         self.stamina += int(amt)
         if self.stamina > self.max_stamina:
             self.stamina = self.max_stamina
