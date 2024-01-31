@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 
 class FightingMove:
@@ -6,13 +6,15 @@ class FightingMove:
         self,
         name: str,
         icon: str,
-        animation_image: str,
+        animation_image: Union[str, list[str]],
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
         can_be_pressed: bool = True,
     ):
         self.name = name
         self.icon = icon
+        if isinstance(animation_image, str):
+            animation_image = [animation_image]
         self.animation_image = animation_image
         self.animation_time = animation_time
         self.animation_sound = animation_sound
@@ -39,10 +41,21 @@ class FightingMove:
     @property
     def animation_image(self) -> str:
         """The image of the move."""
+        if isinstance(self._animation_image, list):
+            if len(self._animation_image) == 0:
+                return ""
+            return self._animation_image[0]
         return self._animation_image
 
+    @property
+    def animation_images(self) -> list[str]:
+        """The images of the move."""
+        if isinstance(self._animation_image, list):
+            return self._animation_image
+        return [self._animation_image]
+
     @animation_image.setter
-    def animation_image(self, value: str):
+    def animation_image(self, value: list[str]):
         self._animation_image = value
 
     @property
@@ -82,7 +95,7 @@ class AttackMove(FightingMove):
         icon: str,
         health_damage: int,
         stamina_damage: int,
-        animation_image: str,
+        animation_image: Union[str, list[str]],
         required_stamina: int,
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,

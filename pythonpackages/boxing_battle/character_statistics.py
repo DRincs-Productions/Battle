@@ -577,6 +577,14 @@ class OpponentStatistics(FightingStatistics):
                 return self.damage_imaged
             else:
                 return self.idle_image
+        elif isinstance(self.current_move, AttackMove):
+            # get image by hit number
+            size = len(self.current_move.animation_images)
+            if size == 0:
+                self.current_move.animation_image
+            index = self.current_hit_number % size
+            return self.current_move.animation_images[index]
+
         return self.current_move.animation_image
 
     def update_move(self) -> Optional[FightingMove]:
