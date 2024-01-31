@@ -30,7 +30,7 @@ label start:
         opp = OpponentStatistics(
             health = 100,
             stamina = 100,
-            recovery_percentage_stamina = 10,
+            recovery_percentage_stamina = 30,
             idle_image = "opponent idle",
             damage_imaged = "opponent damage",
             defense = defense,
