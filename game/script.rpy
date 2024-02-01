@@ -18,6 +18,7 @@ label start:
             name = "Block",
             icon = "icon block",
             animation_image = "opponent block",
+            key = "a",
         )
         attack = AttackMove(
             name = "Punch",
@@ -26,6 +27,7 @@ label start:
             health_damage = 10,
             stamina_damage = 10,
             required_stamina = 10,
+            key = "b",
         )
         opp = OpponentStatistics(
             health = 100,
@@ -42,6 +44,14 @@ label start:
             recovery_percentage_stamina = 30,
             idle_image = "player idle",
             damage_imaged = "player damage",
+            x_button = attack,
+            y_button = defense,
+            a_button = attack,
+            b_button = defense,
+            down_button = attack,
+            left_button = defense,
+            right_button = attack,
+            up_button = defense,
         )
     call screen boxing_battle(player, opp)
 
