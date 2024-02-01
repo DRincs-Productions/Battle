@@ -45,6 +45,7 @@ screen boxing_battle(player, opponent, recover_time = 10):
     # ...
     use boxing_battle_opponent(opponent)
     use boxing_battle_player(player)
+    use joystick(player)
     timer recover_time repeat True action [
             Function(opponent.recover_stamina),
         ]
@@ -101,3 +102,46 @@ screen stamina_bar(my_bar):
             bold = True,
             xcenter = 0.5,
             ycenter = 0.5)
+
+screen joystick(player):
+    if player.x_button and player.x_button.icon:
+        imagebutton:
+            idle player.x_button.icon
+            align (0.85, 0.40)
+            at joystick_button
+    if player.a_button and player.a_button.icon:
+        imagebutton:
+            idle player.a_button.icon
+            align (0.85, 0.70)
+            at joystick_button
+    if player.y_button and player.y_button.icon:
+        imagebutton:
+            idle player.y_button.icon
+            align (0.76, 0.55)
+            at joystick_button
+    if player.b_button and player.b_button.icon:
+        imagebutton:
+            idle player.b_button.icon
+            align (0.94, 0.55)
+            at joystick_button
+
+    if player.up_button and player.up_button.icon:
+        imagebutton:
+            idle player.up_button.icon
+            align (0.15, 0.40)
+            at joystick_button
+    if player.down_button and player.down_button.icon:
+        imagebutton:
+            idle player.down_button.icon
+            align (0.15, 0.70)
+            at joystick_button
+    if player.left_button and player.left_button.icon:
+        imagebutton:
+            idle player.left_button.icon
+            align (0.06, 0.55)
+            at joystick_button
+    if player.right_button and player.right_button.icon:
+        imagebutton:
+            idle player.right_button.icon
+            align (0.24, 0.55)
+            at joystick_button
