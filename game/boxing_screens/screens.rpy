@@ -3,6 +3,13 @@
     from pythonpackages.extra_animated_value.extra_animated_value import ExtraAnimatedValue
     from pythonpackages.extra_animated_value.value_image import ValueImage
 
+image bar_blue: 
+    "images/bar/blue_bar.webp"
+    xysize (400, 30)
+image bar_empty:
+    "images/bar/empty_bar.webp"
+    xysize (400, 30)
+
 screen boxing_battle(player, opponent, recover_time = 10):
     python:
         bar_player_health = ExtraAnimatedValue(
@@ -69,12 +76,12 @@ screen boxing_battle_opponent(opponent):
 
 screen health_bar(my_bar):
     fixed:
-        area (0,0, 400, 50)
+        area (0,0, 400, 30)
         bar:
             value my_bar
-            left_bar "images/bar/health_bar_400x50_left.png"
-            right_bar "images/bar/health_bar_400x50_right.png"
-            area (0,0, 400, 50)
+            left_bar "bar_blue"
+            right_bar "bar_empty"
+            area (0,0, 400, 30)
 
         add my_bar.text(
             "{0.current_value:.0f} hp",
@@ -87,12 +94,12 @@ screen health_bar(my_bar):
 
 screen stamina_bar(my_bar):
     fixed:
-        area (0,0, 400, 50)
+        area (0,0, 400, 30)
         bar:
             value my_bar
-            left_bar "images/bar/health_bar_400x50_left.png"
-            right_bar "images/bar/health_bar_400x50_right.png"
-            area (0,0, 400, 50)
+            left_bar "bar_blue"
+            right_bar "bar_empty"
+            area (0,0, 400, 30)
 
         add my_bar.text(
             "{0.current_value:.0f}/{0.range:.0f}",
