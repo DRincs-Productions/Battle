@@ -38,13 +38,13 @@ screen boxing_battle(player, opponent, recover_time = 10):
         )
 
     vbox:
-        spacing 10
+        spacing 30
         align (0.02, 0.02)
         use health_bar(bar_player_health)
         use stamina_bar(bar_player_stamina)
 
     vbox:
-        spacing 10
+        spacing 30
         align (0.98, 0.02)
         use health_bar(bar_opponent_health)
         use stamina_bar(bar_opponent_stamina)
@@ -83,6 +83,11 @@ screen health_bar(my_bar):
             right_bar "bar_empty"
             area (0,0, 400, 30)
 
+        image "icon heart":
+            xysize (50, 50)
+            yalign 0.5
+            xpos - 0.05
+
         add my_bar.text(
             "{0.current_value:.0f} hp",
             size = 22,
@@ -100,6 +105,11 @@ screen stamina_bar(my_bar):
             left_bar "bar_blue"
             right_bar "bar_empty"
             area (0,0, 400, 30)
+
+        image "icon stamina":
+            xysize (50, 50)
+            yalign 0.5
+            xpos - 0.05
 
         add my_bar.text(
             "{0.current_value:.0f}/{0.range:.0f}",

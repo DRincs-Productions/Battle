@@ -1,5 +1,8 @@
 image icon block = "/boxing_interface/defense-0.webp"
 image icon punch = "/boxing_interface/attack-0.webp"
+image icon heart = "/boxing_interface/heart.webp"
+image icon stamina = "/boxing_interface/stamina.webp"
+
 image opponent block:
     xalign 0.7
     "defense_b.webp"
@@ -11,12 +14,12 @@ image opponent damage:
     "dodge_b.webp"
 image opponent attack_a:
     xalign 0.7
-    "attack_b.webp"
+    "attack_b0.webp"
     pause 0.2
     "idle_b.webp"
 image opponent attack_b:
     xalign 0.7
-    "defense_b.webp"
+    "attack_b1.webp"
     pause 0.2
     "idle_b.webp"
 image player idle:
