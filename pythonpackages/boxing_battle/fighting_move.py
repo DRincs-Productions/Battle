@@ -6,6 +6,7 @@ class FightingMove:
         self,
         name: str,
         icon: str,
+        key: str,
         animation_image: Union[str, list[str]],
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
@@ -13,6 +14,7 @@ class FightingMove:
     ):
         self.name = name
         self.icon = icon
+        self.key = key
         if isinstance(animation_image, str):
             animation_image = [animation_image]
         self.animation_image = animation_image
@@ -37,6 +39,15 @@ class FightingMove:
     @icon.setter
     def icon(self, value: str):
         self._icon = value
+
+    @property
+    def key(self) -> str:
+        """The key of the move."""
+        return self._key
+
+    @key.setter
+    def key(self, value: str):
+        self._key = value
 
     @property
     def animation_image(self) -> str:
@@ -95,6 +106,7 @@ class AttackMove(FightingMove):
         icon: str,
         health_damage: int,
         stamina_damage: int,
+        key: str,
         animation_image: Union[str, list[str]],
         required_stamina: int,
         animation_time: Optional[float] = None,
@@ -104,6 +116,7 @@ class AttackMove(FightingMove):
         super().__init__(
             name=name,
             icon=icon,
+            key=key,
             animation_image=animation_image,
             animation_time=animation_time,
             animation_sound=animation_sound,
@@ -159,6 +172,7 @@ class DefenseMove(FightingMove):
         self,
         name: str,
         icon: str,
+        key: str,
         animation_image: str,
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
@@ -168,6 +182,7 @@ class DefenseMove(FightingMove):
         super().__init__(
             name=name,
             icon=icon,
+            key=key,
             animation_image=animation_image,
             animation_time=animation_time,
             animation_sound=animation_sound,
@@ -211,6 +226,7 @@ class DodgeMove(FightingMove):
         self,
         name: str,
         icon: str,
+        key: str,
         effect_time: float,
         animation_image: str,
         animation_sound: Optional[str] = None,
@@ -218,6 +234,7 @@ class DodgeMove(FightingMove):
         super().__init__(
             name=name,
             icon=icon,
+            key=key,
             animation_image=animation_image,
             animation_time=effect_time,
             animation_sound=animation_sound,
