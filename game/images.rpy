@@ -19,7 +19,7 @@ image opponent attack_a:
     "idle_b.webp"
 image opponent attack_b:
     xalign 0.7
-    "attack_b1.webp"
+    "attack_b0.webp"
     pause 0.2
     "idle_b.webp"
 image player idle:
