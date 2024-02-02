@@ -28,6 +28,9 @@ class FightingStatistics:
         self.damage_imaged = damage_imaged
         self.current_state = FightingState.IDLE
 
+        self.current_hit_number = None
+        self.current_move = None
+
     @property
     def health(self) -> int:
         """The health of the character."""
@@ -99,6 +102,26 @@ class FightingStatistics:
     @current_state.setter
     def current_state(self, value: FightingState):
         self._current_state = value
+
+    @property
+    def current_hit_number(self) -> int:
+        """The current hit of the opponent."""
+        if self._current_hit_number is None:
+            return 0
+        return self._current_hit_number
+
+    @current_hit_number.setter
+    def current_hit_number(self, value: Optional[int]):
+        self._current_hit_number = value
+
+    @property
+    def current_move(self) -> Optional[FightingMove]:
+        """The current move of the opponent."""
+        return self._current_move
+
+    @current_move.setter
+    def current_move(self, value: Optional[FightingMove]):
+        self._current_move = value
 
     def dannage(
         self,
@@ -391,8 +414,6 @@ class OpponentStatistics(FightingStatistics):
         self.backlash_probability = backlash_probability
         self.maximum_thinking_time = maximum_thinking_time
         self.minimal_thinking_time = minimal_thinking_time
-        self.current_hit_number = None
-        self.current_move = None
 
     @property
     def defense_list(self) -> list[DefenseMove]:
@@ -548,26 +569,6 @@ class OpponentStatistics(FightingStatistics):
             self.minimal_thinking_time,
             self.maximum_thinking_time,
         )
-
-    @property
-    def current_hit_number(self) -> int:
-        """The current hit of the opponent."""
-        if self._current_hit_number is None:
-            return 0
-        return self._current_hit_number
-
-    @current_hit_number.setter
-    def current_hit_number(self, value: Optional[int]):
-        self._current_hit_number = value
-
-    @property
-    def current_move(self) -> Optional[FightingMove]:
-        """The current move of the opponent."""
-        return self._current_move
-
-    @current_move.setter
-    def current_move(self, value: Optional[FightingMove]):
-        self._current_move = value
 
     @property
     def image(self) -> str:
