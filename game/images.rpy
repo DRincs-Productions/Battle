@@ -15,12 +15,12 @@ image opponent damage:
 image opponent attack_a:
     xalign 0.7
     "attack_b0.webp"
-    pause 0.2
+    pause 0.1
     "idle_b.webp"
 image opponent attack_b:
     xalign 0.7
     "attack_b0.webp"
-    pause 0.2
+    pause 0.1
     "idle_b.webp"
 image player idle:
     xalign 0.3
