@@ -28,6 +28,7 @@ label start:
             stamina_damage = 10,
             required_stamina = 10,
             key = "b",
+            stum_time = 0.3,
         )
         opp = OpponentStatistics(
             health = 100,
