@@ -111,7 +111,7 @@ class AttackMove(FightingMove):
         required_stamina: int,
         animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
-        stum_time: Optional[float] = None,
+        stum_time: float = 0,
     ):
         super().__init__(
             name=name,
