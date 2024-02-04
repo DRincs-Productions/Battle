@@ -1,4 +1,5 @@
 import random
+import time
 from typing import Optional, Union
 from pythonpackages.boxing_battle.fighting_move import (
     AttackMove,
@@ -7,7 +8,7 @@ from pythonpackages.boxing_battle.fighting_move import (
     FightingMove,
 )
 from pythonpackages.boxing_battle.fighting_state import FightingState
-from pythonpackages.renpy_utility.renpy_custom_log import log_warn
+from pythonpackages.renpy_utility.renpy_custom_log import log_info, log_warn
 
 
 class FightingStatistics:
@@ -30,6 +31,7 @@ class FightingStatistics:
 
         self.current_hit_number = None
         self.current_move = None
+        self.stum_data_time = None
 
     @property
     def health(self) -> int:
@@ -123,21 +125,45 @@ class FightingStatistics:
     def current_move(self, value: Optional[FightingMove]):
         self._current_move = value
 
+    @property
+    def stum_data_time(self) -> Optional[float]:
+        """The stun time of the opponent."""
+        return self._stum_data_time
+
+    @stum_data_time.setter
+    def stum_data_time(self, value: Optional[float]):
+        self._stum_data_time = value
+
     def dannage(
         self,
         rival_attack: AttackMove,
-        defense: DefenseMove,
     ):
         """Calculate the damage of the attack."""
-        stamina_damage = rival_attack.stamina_damage - defense.stamina_resistance
-        health_damage = rival_attack.health_damage - defense.health_resistance
-        if stamina_damage < 0:
-            stamina_damage = 0
-        if health_damage < 0:
-            health_damage = 0
+        # stamina_damage = rival_attack.stamina_damage - defense.stamina_resistance
+        # health_damage = rival_attack.health_damage - defense.health_resistance
+        # if stamina_damage < 0:
+        #     stamina_damage = 0
+        # if health_damage < 0:
+        #     health_damage = 0
+        # self.stamina -= stamina_damage
 
-        self.health -= health_damage
-        self.stamina -= stamina_damage
+        self.health -= rival_attack.health_damage
+        if rival_attack.stum_time > 0:
+            self.current_state = FightingState.DAMAGED
+            self.current_move = None
+            self.stum_data_time = time.time() + rival_attack.stum_time
+
+        log_info(f"HEALTH DAMAGE: {rival_attack.health_damage}")
+        return
+
+    def remove_damage_state(self):
+        """Remove the damage state."""
+        log_info("REMOVE DAMAGE STATE")
+        if self.stum_time_to_wait > 0:
+            return
+        if self.current_state == FightingState.DAMAGED:
+            self.current_state = FightingState.IDLE
+            self.current_move = None
 
     @property
     def is_dead(self) -> bool:
@@ -153,8 +179,38 @@ class FightingStatistics:
         """Recover the stamina."""
         amt = self.max_stamina * self.recovery_percentage_stamina / 100
         self.stamina += int(amt)
+        log_info(f"RECOVER STAMINA: {amt}")
         if self.stamina > self.max_stamina:
             self.stamina = self.max_stamina
+
+    @property
+    def image(self) -> str:
+        """Return the image of the opponent."""
+        if self.current_move is None:
+            if self.current_state == FightingState.DAMAGED:
+                return self.damage_imaged
+            else:
+                return self.idle_image
+        elif isinstance(self.current_move, AttackMove):
+            # get image by hit number
+            size = len(self.current_move.animation_images)
+            if size == 0:
+                self.current_move.animation_image
+            index = self.current_hit_number % size
+            return self.current_move.animation_images[index]
+
+        return self.current_move.animation_image
+
+    @property
+    def stum_time_to_wait(self) -> float:
+        """The stun time to wait."""
+        if self.stum_data_time is None:
+            return 0
+        value = self.stum_data_time - time.time()
+        if value > 0:
+            return value
+        self.stum_data_time = None
+        return 0
 
 
 class PlayerStatistics(FightingStatistics):
@@ -570,25 +626,7 @@ class OpponentStatistics(FightingStatistics):
             self.maximum_thinking_time,
         )
 
-    @property
-    def image(self) -> str:
-        """Return the image of the opponent."""
-        if self.current_move is None:
-            if self.current_state == FightingState.DAMAGED:
-                return self.damage_imaged
-            else:
-                return self.idle_image
-        elif isinstance(self.current_move, AttackMove):
-            # get image by hit number
-            size = len(self.current_move.animation_images)
-            if size == 0:
-                self.current_move.animation_image
-            index = self.current_hit_number % size
-            return self.current_move.animation_images[index]
-
-        return self.current_move.animation_image
-
-    def update_move(self) -> Optional[FightingMove]:
+    def update_move(self, player: PlayerStatistics) -> Optional[FightingMove]:
         """Return the move of the opponent."""
         if self.current_state == FightingState.DAMAGED:
             self.current_move = self.random_defense
@@ -599,23 +637,28 @@ class OpponentStatistics(FightingStatistics):
         if random.randint(0, 100) < self.aggression_percentage:
             move = self.random_attack
             if move is not None and self.stamina >= move.stamina_damage:
+                log_info("ATTACK")
                 self.current_move = move
                 self.current_hit_number = 1
                 self.stamina -= move.stamina_damage
                 self.current_state = FightingState.ATTACK
+                player.dannage(move)
                 return
         # random defanse
         if random.randint(0, 100) < self.defensive_percentage:
+            log_info("DEFENSE")
             move = self.random_defense
             if move is not None:
                 self.current_move = move
                 self.current_state = FightingState.DEFENSE
                 return
+        log_info("IDLE")
         self.current_move = None
         return
 
     def add_hit(self):
         """Add a hit to the opponent."""
+        log_info("HIT: " + str(self.current_hit_number))
         if not isinstance(self.current_move, AttackMove):
             log_warn(
                 "The current move is not an attack move.", "OpponentStatistics.add_hit"
