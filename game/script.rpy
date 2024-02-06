@@ -28,7 +28,7 @@ label start:
             stamina_damage = 10,
             required_stamina = 10,
             key = "b",
-            stum_time = 0.3,
+            stum_time = 0.7,
         )
         opponent = OpponentStatistics(
             health = 100,
@@ -39,7 +39,7 @@ label start:
             defense = defense,
             attack = attack,
             minimal_time_between_hits = 0.5,
-            maximal_time_between_hits = 0.7,
+            maximal_time_between_hits = 1,
         )
         player = PlayerStatistics(
             health = 100,

@@ -15,7 +15,7 @@ screen boxing_opponent_thinking(player, opponent):
                 Function(renpy.hide, player.image),
                 Function(renpy.hide, opponent.image),
                 Function(opponent.add_hit),
-                Function(player.dannage, opponent.current_move),
+                Function(player.damage, opponent.current_move),
                 Function(renpy.show, player.image),
                 Function(renpy.show, opponent.image),
             ]

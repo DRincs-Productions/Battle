@@ -134,7 +134,7 @@ class FightingStatistics:
     def stum_data_time(self, value: Optional[float]):
         self._stum_data_time = value
 
-    def dannage(
+    def damage(
         self,
         rival_attack: AttackMove,
     ):
@@ -642,7 +642,7 @@ class OpponentStatistics(FightingStatistics):
                 self.current_hit_number = 1
                 self.stamina -= move.stamina_damage
                 self.current_state = FightingState.ATTACK
-                player.dannage(move)
+                player.damage(move)
                 return
         # random defanse
         if random.randint(0, 100) < self.defensive_percentage:
