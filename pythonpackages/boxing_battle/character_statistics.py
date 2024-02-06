@@ -31,7 +31,7 @@ class FightingStatistics:
 
         self.current_hit_number = None
         self.current_move = None
-        self.stum_data_time = None
+        self.stun_data_time = None
 
     @property
     def health(self) -> int:
@@ -126,13 +126,13 @@ class FightingStatistics:
         self._current_move = value
 
     @property
-    def stum_data_time(self) -> Optional[float]:
+    def stun_data_time(self) -> Optional[float]:
         """The stun time of the opponent."""
-        return self._stum_data_time
+        return self._stun_data_time
 
-    @stum_data_time.setter
-    def stum_data_time(self, value: Optional[float]):
-        self._stum_data_time = value
+    @stun_data_time.setter
+    def stun_data_time(self, value: Optional[float]):
+        self._stun_data_time = value
 
     def damage(
         self,
@@ -148,18 +148,18 @@ class FightingStatistics:
         # self.stamina -= stamina_damage
 
         self.health -= rival_attack.health_damage
-        if rival_attack.stum_time > 0:
+        if rival_attack.stun_time > 0:
             self.current_state = FightingState.DAMAGED
             self.current_move = None
-            self.stum_data_time = time.time() + rival_attack.stum_time
+            self.stun_data_time = time.time() + rival_attack.stun_time
 
         log_info(f"HEALTH DAMAGE: {rival_attack.health_damage}")
         return
 
     def remove_damage_state(self):
         """Remove the damage state."""
-        log_info("REMOVE DAMAGE STATE")
-        if self.stum_time_to_wait > 0:
+        log_info("REMOVE DAMAGE STATE: " + str(self.stun_time_to_wait))
+        if self.stun_time_to_wait > 0:
             return
         if self.current_state == FightingState.DAMAGED:
             self.current_state = FightingState.IDLE
@@ -202,14 +202,14 @@ class FightingStatistics:
         return self.current_move.animation_image
 
     @property
-    def stum_time_to_wait(self) -> float:
+    def stun_time_to_wait(self) -> float:
         """The stun time to wait."""
-        if self.stum_data_time is None:
+        if self.stun_data_time is None:
             return 0
-        value = self.stum_data_time - time.time()
+        value = self.stun_data_time - time.time()
         if value > 0:
             return value
-        self.stum_data_time = None
+        self.stun_data_time = None
         return 0
 
 

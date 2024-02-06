@@ -97,7 +97,7 @@ class AttackMove(FightingMove):
         animation_image: Union[str, list[str]],
         required_stamina: int,
         animation_sound: Optional[str] = None,
-        stum_time: float = 0,
+        stun_time: float = 0,
     ):
         super().__init__(
             name=name,
@@ -110,7 +110,7 @@ class AttackMove(FightingMove):
 
         self.health_damage = health_damage
         self.stamina_damage = stamina_damage
-        self.stum_time = stum_time
+        self.stun_time = stun_time
         self.required_stamina = required_stamina
 
     @property
@@ -132,15 +132,15 @@ class AttackMove(FightingMove):
         self._stamina_damage = value
 
     @property
-    def stum_time(self) -> float:
+    def stun_time(self) -> float:
         """The stun time of the move."""
-        if self._stum_time is None:
+        if self._stun_time is None:
             return 0.0
-        return self._stum_time
+        return self._stun_time
 
-    @stum_time.setter
-    def stum_time(self, value: Optional[float]):
-        self._stum_time = value
+    @stun_time.setter
+    def stun_time(self, value: Optional[float]):
+        self._stun_time = value
 
     @property
     def required_stamina(self) -> int:
