@@ -38,6 +38,8 @@ label start:
             damage_imaged = "opponent damage",
             defense = defense,
             attack = attack,
+            minimal_time_between_hits = 0.5,
+            maximal_time_between_hits = 0.7,
         )
         player = PlayerStatistics(
             health = 100,
@@ -54,7 +56,9 @@ label start:
             right_button = attack,
             up_button = defense,
         )
-    call screen boxing_battle(player, opp)
+    show screen boxing_player_thinking(player, opp)
+    show screen boxing_opponent_thinking(player, opp)
+    call screen boxing_battle_interface(player, opp)
 
     # This ends the game.
 

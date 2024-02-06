@@ -8,7 +8,6 @@ class FightingMove:
         icon: str,
         key: str,
         animation_image: Union[str, list[str]],
-        animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
         can_be_pressed: bool = True,
     ):
@@ -18,7 +17,6 @@ class FightingMove:
         if isinstance(animation_image, str):
             animation_image = [animation_image]
         self.animation_image = animation_image
-        self.animation_time = animation_time
         self.animation_sound = animation_sound
         self.can_be_pressed = can_be_pressed
 
@@ -70,17 +68,6 @@ class FightingMove:
         self._animation_image = value
 
     @property
-    def animation_time(self) -> float:
-        """The time of the move."""
-        if self._animation_time is None:
-            return 0.0
-        return self._animation_time
-
-    @animation_time.setter
-    def animation_time(self, value: Optional[float]):
-        self._animation_time = value
-
-    @property
     def animation_sound(self) -> Optional[str]:
         """The sound of the move."""
         return self._animation_sound
@@ -109,7 +96,6 @@ class AttackMove(FightingMove):
         key: str,
         animation_image: Union[str, list[str]],
         required_stamina: int,
-        animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
         stum_time: float = 0,
     ):
@@ -118,7 +104,6 @@ class AttackMove(FightingMove):
             icon=icon,
             key=key,
             animation_image=animation_image,
-            animation_time=animation_time,
             animation_sound=animation_sound,
             can_be_pressed=False,
         )
@@ -174,7 +159,6 @@ class DefenseMove(FightingMove):
         icon: str,
         key: str,
         animation_image: str,
-        animation_time: Optional[float] = None,
         animation_sound: Optional[str] = None,
         health_resistance: Optional[int] = None,
         stamina_resistance: Optional[int] = None,
@@ -184,7 +168,6 @@ class DefenseMove(FightingMove):
             icon=icon,
             key=key,
             animation_image=animation_image,
-            animation_time=animation_time,
             animation_sound=animation_sound,
             can_be_pressed=True,
         )
@@ -236,7 +219,16 @@ class DodgeMove(FightingMove):
             icon=icon,
             key=key,
             animation_image=animation_image,
-            animation_time=effect_time,
             animation_sound=animation_sound,
             can_be_pressed=False,
         )
+        effect_time = effect_time
+
+    @property
+    def effect_time(self) -> float:
+        """The effect time of the move."""
+        return self._effect_time
+
+    @effect_time.setter
+    def effect_time(self, value: float):
+        self._effect_time = value

@@ -12,8 +12,10 @@ image bar_empty:
     "images/bar/empty_bar.webp"
     xysize (400, 30)
 
-screen boxing_battle(player, opponent, recover_time = 10):
+screen boxing_battle_interface(player, opponent, recover_time = 10):
     python:
+        renpy.show(player.idle_image)
+        renpy.show(opponent.image)
         bar_player_health = ExtraAnimatedValue(
             value=player.health, 
             range=player.max_health, 
@@ -51,22 +53,22 @@ screen boxing_battle(player, opponent, recover_time = 10):
         use health_bar(bar_opponent_health)
         use stamina_bar(bar_opponent_stamina)
 
-    use boxing_battle_animation(player, opponent)
+    # use boxing_opponent_thinking(player, opponent)
+    # use boxing_player_thinking(player, opponent)
     use joystick(player)
     timer recover_time repeat True action [
             Function(opponent.recover_stamina),
         ]
 
-screen boxing_battle_animation(player, opponent):
-    $ renpy.show(player.idle_image)
-    $ renpy.show(opponent.image)
-    timer opponent.random_thinking_time repeat True action [
-            Function(renpy.hide, player.image),
-            Function(renpy.hide, opponent.image),
-            Function(opponent.update_move, player),
-            Function(renpy.show, player.image),
-            Function(renpy.show, opponent.image),
-        ]
+screen boxing_opponent_thinking(player, opponent):
+    if not opponent.current_state == FightingState.ATTACK:
+        timer opponent.random_thinking_time repeat True action [
+                Function(renpy.hide, player.image),
+                Function(renpy.hide, opponent.image),
+                Function(opponent.update_move, player),
+                Function(renpy.show, player.image),
+                Function(renpy.show, opponent.image),
+            ]
     if opponent.current_state == FightingState.ATTACK:
         timer opponent.random_time_between_hits repeat opponent.current_state == FightingState.ATTACK action [
                 Function(renpy.hide, player.image),
@@ -76,6 +78,8 @@ screen boxing_battle_animation(player, opponent):
                 Function(renpy.show, player.image),
                 Function(renpy.show, opponent.image),
             ]
+
+screen boxing_player_thinking(player, opponent):
     if player.stum_time_to_wait > 0:
         timer player.stum_time_to_wait repeat player.stum_time_to_wait > 0 action [
                 Function(renpy.hide, player.image),
