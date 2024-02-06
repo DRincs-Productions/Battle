@@ -1,9 +1,5 @@
 ﻿init python:
-    from pythonpackages.boxing_battle.fighting_state import FightingState
     from pythonpackages.extra_animated_value.extra_animated_value import ExtraAnimatedValue
-    from pythonpackages.extra_animated_value.value_image import ValueImage
-
-default last_dammage_hit = 0
 
 image bar_blue: 
     "images/bar/blue_bar.webp"
@@ -14,8 +10,6 @@ image bar_empty:
 
 screen boxing_battle_interface(player, opponent, recover_time = 10):
     python:
-        renpy.show(player.idle_image)
-        renpy.show(opponent.image)
         bar_player_health = ExtraAnimatedValue(
             value=player.health, 
             range=player.max_health, 
@@ -59,33 +53,6 @@ screen boxing_battle_interface(player, opponent, recover_time = 10):
     timer recover_time repeat True action [
             Function(opponent.recover_stamina),
         ]
-
-screen boxing_opponent_thinking(player, opponent):
-    if not opponent.current_state == FightingState.ATTACK:
-        timer opponent.random_thinking_time repeat True action [
-                Function(renpy.hide, player.image),
-                Function(renpy.hide, opponent.image),
-                Function(opponent.update_move, player),
-                Function(renpy.show, player.image),
-                Function(renpy.show, opponent.image),
-            ]
-    if opponent.current_state == FightingState.ATTACK:
-        timer opponent.random_time_between_hits repeat opponent.current_state == FightingState.ATTACK action [
-                Function(renpy.hide, player.image),
-                Function(renpy.hide, opponent.image),
-                Function(opponent.add_hit),
-                Function(player.dannage, opponent.current_move),
-                Function(renpy.show, player.image),
-                Function(renpy.show, opponent.image),
-            ]
-
-screen boxing_player_thinking(player, opponent):
-    if player.stum_time_to_wait > 0:
-        timer player.stum_time_to_wait repeat player.stum_time_to_wait > 0 action [
-                Function(renpy.hide, player.image),
-                Function(player.remove_damage_state),
-                Function(renpy.show, player.image),
-            ]
 
 screen health_bar(my_bar):
     fixed:

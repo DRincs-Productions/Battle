@@ -30,7 +30,7 @@ label start:
             key = "b",
             stum_time = 0.3,
         )
-        opp = OpponentStatistics(
+        opponent = OpponentStatistics(
             health = 100,
             stamina = 100,
             recovery_percentage_stamina = 30,
@@ -56,9 +56,11 @@ label start:
             right_button = attack,
             up_button = defense,
         )
-    show screen boxing_player_thinking(player, opp)
-    show screen boxing_opponent_thinking(player, opp)
-    call screen boxing_battle_interface(player, opp)
+    $ renpy.show(player.idle_image)
+    $ renpy.show(opponent.image)
+    show screen boxing_player_thinking(player, opponent)
+    show screen boxing_opponent_thinking(player, opponent)
+    call screen boxing_battle_interface(player, opponent)
 
     # This ends the game.
 
