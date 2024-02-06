@@ -197,10 +197,6 @@ class FightingStatistics:
             if size == 0:
                 self.current_move.animation_image
             index = self.current_hit_number % size
-            log_info(
-                f"CURRENT_HIT_NUMBER: {self.current_hit_number} % SIZE: {size} = INDEX: {index}"
-            )
-            log_info(f"IMAGE: {self.current_move.animation_images[index]}")
             return self.current_move.animation_images[index]
 
         return self.current_move.animation_image
