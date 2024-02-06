@@ -31,7 +31,7 @@ class FightingStatistics:
 
         self.current_hit_number = None
         self.current_move = None
-        self.stun_data_time = None
+        self.stun_date_time = None
 
     @property
     def health(self) -> int:
@@ -126,13 +126,13 @@ class FightingStatistics:
         self._current_move = value
 
     @property
-    def stun_data_time(self) -> Optional[float]:
+    def stun_date_time(self) -> Optional[float]:
         """The stun time of the opponent."""
-        return self._stun_data_time
+        return self._stun_date_time
 
-    @stun_data_time.setter
-    def stun_data_time(self, value: Optional[float]):
-        self._stun_data_time = value
+    @stun_date_time.setter
+    def stun_date_time(self, value: Optional[float]):
+        self._stun_date_time = value
 
     def damage(
         self,
@@ -151,7 +151,7 @@ class FightingStatistics:
         if rival_attack.stun_time > 0:
             self.current_state = FightingState.DAMAGED
             self.current_move = None
-            self.stun_data_time = time.time() + rival_attack.stun_time
+            self.stun_date_time = time.time() + rival_attack.stun_time
 
         log_info(f"HEALTH DAMAGE: {rival_attack.health_damage}")
         return
@@ -204,12 +204,12 @@ class FightingStatistics:
     @property
     def stun_time_to_wait(self) -> float:
         """The stun time to wait."""
-        if self.stun_data_time is None:
+        if self.stun_date_time is None:
             return 0
-        value = self.stun_data_time - time.time()
+        value = self.stun_date_time - time.time()
         if value > 0:
             return round(value, 2)
-        self.stun_data_time = None
+        self.stun_date_time = None
         return 0
 
 
