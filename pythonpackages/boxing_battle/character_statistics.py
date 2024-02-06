@@ -208,7 +208,7 @@ class FightingStatistics:
             return 0
         value = self.stun_data_time - time.time()
         if value > 0:
-            return value
+            return round(value, 2)
         self.stun_data_time = None
         return 0
 
