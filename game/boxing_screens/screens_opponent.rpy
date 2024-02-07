@@ -1,12 +1,13 @@
 ﻿init python:
     from pythonpackages.boxing_battle.fighting_state import FightingState
+    from pythonpackages.boxing_battle.character_statistics import update_move
 
 screen boxing_opponent_thinking(player, opponent):
     if not opponent.current_state == FightingState.ATTACK:
         timer opponent.random_thinking_time repeat True action [
                 Function(renpy.hide, player.image),
                 Function(renpy.hide, opponent.image),
-                Function(opponent.update_move, player),
+                Function(update_move, opponent, player),
                 Function(renpy.show, player.image),
                 Function(renpy.show, opponent.image),
             ]

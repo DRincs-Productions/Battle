@@ -136,7 +136,7 @@ class FightingStatistics:
 
     def damage(
         self,
-        rival_attack: AttackMove,
+        rival_attack: FightingMove,
     ):
         """Calculate the damage of the attack."""
         # stamina_damage = rival_attack.stamina_damage - defense.stamina_resistance
@@ -147,21 +147,27 @@ class FightingStatistics:
         #     health_damage = 0
         # self.stamina -= stamina_damage
 
+        if not isinstance(rival_attack, AttackMove):
+            log_warn(
+                "The rival attack is not an attack move.", "FightingStatistics.damage"
+            )
+            return
+
+        log_info(f"STUN DATA damage(): {self.stun_date_time}")
+
         self.health -= rival_attack.health_damage
         if rival_attack.stun_time > 0:
             self.current_state = FightingState.DAMAGED
             self.current_move = None
             self.stun_date_time = time.time() + rival_attack.stun_time
-
-        log_info(f"HEALTH DAMAGE: {rival_attack.health_damage}")
         return
 
     def remove_damage_state(self):
         """Remove the damage state."""
-        log_info("REMOVE DAMAGE STATE: " + str(self.stun_time_to_wait))
         if self.stun_time_to_wait > 0:
             return
         if self.current_state == FightingState.DAMAGED:
+            log_info("REMOVE DAMAGE STATE")
             self.current_state = FightingState.IDLE
             self.current_move = None
 
@@ -186,6 +192,7 @@ class FightingStatistics:
     @property
     def image(self) -> str:
         """Return the image of the opponent."""
+        log_info(f"STATE: {self.current_state}")
         if self.current_move is None:
             if self.current_state == FightingState.DAMAGED:
                 return self.damage_imaged
@@ -626,13 +633,13 @@ class OpponentStatistics(FightingStatistics):
             self.maximum_thinking_time,
         )
 
-    def update_move(self, player: PlayerStatistics) -> Optional[FightingMove]:
+    def update_move(self) -> Optional[FightingMove]:
         """Return the move of the opponent."""
         if self.current_state == FightingState.DAMAGED:
             self.current_move = self.random_defense
-            return
+            return self.current_move
         if self.current_state == FightingState.ATTACK:
-            return
+            return self.current_move
         # random attack
         if random.randint(0, 100) < self.aggression_percentage:
             move = self.random_attack
@@ -642,8 +649,7 @@ class OpponentStatistics(FightingStatistics):
                 self.current_hit_number = 1
                 self.stamina -= move.stamina_damage
                 self.current_state = FightingState.ATTACK
-                player.damage(move)
-                return
+                return self.current_move
         # random defanse
         if random.randint(0, 100) < self.defensive_percentage:
             log_info("DEFENSE")
@@ -651,10 +657,10 @@ class OpponentStatistics(FightingStatistics):
             if move is not None:
                 self.current_move = move
                 self.current_state = FightingState.DEFENSE
-                return
+                return self.current_move
         log_info("IDLE")
         self.current_move = None
-        return
+        return self.current_move
 
     def add_hit(self):
         """Add a hit to the opponent."""
@@ -674,3 +680,9 @@ class OpponentStatistics(FightingStatistics):
             self.current_hit_number = 0
             self.current_move = self.random_defense
             self.current_state = FightingState.DEFENSE
+
+
+def update_move(opponent: OpponentStatistics, player: PlayerStatistics):
+    value = opponent.update_move()
+    if value and isinstance(value, AttackMove):
+        player.damage(value)
