@@ -9,6 +9,7 @@ from pythonpackages.boxing_battle.fighting_move import (
 )
 from pythonpackages.boxing_battle.fighting_state import FightingState
 from pythonpackages.renpy_utility.renpy_custom_log import log_info, log_warn
+import renpy.exports as renpy
 
 
 class FightingStatistics:
@@ -154,22 +155,25 @@ class FightingStatistics:
             return
 
         log_info(f"STUN DATA damage(): {self.stun_date_time}")
-
+        renpy.hide(self.image)
         self.health -= rival_attack.health_damage
         if rival_attack.stun_time > 0:
             self.current_state = FightingState.DAMAGED
             self.current_move = None
             self.stun_date_time = time.time() + rival_attack.stun_time
+        renpy.show(self.image)
         return
 
     def remove_damage_state(self):
         """Remove the damage state."""
         if self.stun_time_to_wait > 0:
             return
+        renpy.hide(self.image)
         if self.current_state == FightingState.DAMAGED:
             log_info("REMOVE DAMAGE STATE")
             self.current_state = FightingState.IDLE
             self.current_move = None
+        renpy.show(self.image)
 
     @property
     def is_dead(self) -> bool:
@@ -636,7 +640,9 @@ class OpponentStatistics(FightingStatistics):
     def update_move(self) -> Optional[FightingMove]:
         """Return the move of the opponent."""
         if self.current_state == FightingState.DAMAGED:
+            renpy.hide(self.image)
             self.current_move = self.random_defense
+            renpy.show(self.image)
             return self.current_move
         if self.current_state == FightingState.ATTACK:
             return self.current_move
@@ -645,21 +651,28 @@ class OpponentStatistics(FightingStatistics):
             move = self.random_attack
             if move is not None and self.stamina >= move.stamina_damage:
                 log_info("ATTACK")
+                renpy.hide(self.image)
                 self.current_move = move
                 self.current_hit_number = 1
                 self.stamina -= move.stamina_damage
                 self.current_state = FightingState.ATTACK
+                renpy.show(self.image)
                 return self.current_move
         # random defanse
         if random.randint(0, 100) < self.defensive_percentage:
             log_info("DEFENSE")
             move = self.random_defense
             if move is not None:
+                renpy.hide(self.image)
                 self.current_move = move
                 self.current_state = FightingState.DEFENSE
+                renpy.show(self.image)
                 return self.current_move
         log_info("IDLE")
+        renpy.hide(self.image)
         self.current_move = None
+        self.current_state = FightingState.IDLE
+        renpy.show(self.image)
         return self.current_move
 
     def add_hit(self):
@@ -670,6 +683,7 @@ class OpponentStatistics(FightingStatistics):
                 "The current move is not an attack move.", "OpponentStatistics.add_hit"
             )
             return
+        renpy.hide(self.image)
         if (
             self.stamina >= self.current_move.stamina_damage
             and self.current_hit_number <= self.random_repeated_hits
@@ -680,6 +694,7 @@ class OpponentStatistics(FightingStatistics):
             self.current_hit_number = 0
             self.current_move = self.random_defense
             self.current_state = FightingState.DEFENSE
+        renpy.show(self.image)
 
 
 def update_move(opponent: OpponentStatistics, player: PlayerStatistics):
