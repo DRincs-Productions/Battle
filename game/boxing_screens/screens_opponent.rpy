@@ -10,5 +10,5 @@ screen boxing_opponent_thinking(player, opponent):
     if opponent.current_state == FightingState.ATTACK:
         timer opponent.random_time_between_hits repeat opponent.current_state == FightingState.ATTACK action [
                 Function(opponent.add_hit),
-                Function(player.damage, opponent.current_move),
+                Function(player.damage, opponent.current_move), # TODO to change
             ]
