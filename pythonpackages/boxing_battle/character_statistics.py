@@ -432,6 +432,17 @@ class PlayerStatistics(FightingStatistics):
         self.left_enabled = True
         self.right_enabled = True
 
+    def set_move(self, move: FightingMove):
+        """Set the move of the player."""
+        if isinstance(move, DefenseMove):
+            self.current_move = move
+            self.current_state = FightingState.DEFENSE
+        else:
+            self.current_move = move
+            self.current_state = FightingState.IDLE
+        renpy.hide(self.image)
+        renpy.show(self.image)
+
 
 class OpponentStatistics(FightingStatistics):
     def __init__(

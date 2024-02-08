@@ -140,7 +140,9 @@ screen joystick_button(move, my_align):
             idle move.icon
             align my_align
             at joystick_button
-        # key move.key TODO: antion
+        key move.key action: [
+            
+        ]
 
 screen move_info(move):
     hbox:
