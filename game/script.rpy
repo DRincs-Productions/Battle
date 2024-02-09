@@ -14,13 +14,14 @@ label start:
         from pythonpackages.boxing_battle.fighting_move import DefenseMove, AttackMove
         from pythonpackages.boxing_battle.character_statistics import OpponentStatistics, PlayerStatistics
 
-        defense = DefenseMove(
+        # Opponent
+        defense_opponent = DefenseMove(
             name = "Block",
             icon = "icon block",
             animation_image = "opponent block",
             key = "a",
         )
-        attack = AttackMove(
+        attack_opponent = AttackMove(
             name = "Punch",
             icon = "icon punch",
             animation_image = ["opponent attack dx", "opponent attack sx"],
@@ -36,10 +37,27 @@ label start:
             recovery_percentage_stamina = 30,
             idle_image = "opponent idle",
             damage_imaged = "opponent damage",
-            defense = defense,
-            attack = attack,
+            defense = defense_opponent,
+            attack = attack_opponent,
             minimal_time_between_hits = 0.5,
             maximal_time_between_hits = 1,
+        )
+        # Player
+        defense_player = DefenseMove(
+            name = "Block",
+            icon = "icon block",
+            animation_image = "player block",
+            key = "a",
+        )
+        attack_player = AttackMove(
+            name = "Punch",
+            icon = "icon punch",
+            animation_image = ["player attack dx", "opponent attack sx"],
+            health_damage = 10,
+            stamina_damage = 10,
+            required_stamina = 10,
+            key = "b",
+            stun_time = 0.7,
         )
         player = PlayerStatistics(
             health = 100,
@@ -47,14 +65,8 @@ label start:
             recovery_percentage_stamina = 30,
             idle_image = "player idle",
             damage_imaged = "player damage",
-            x_button = attack,
-            y_button = defense,
-            a_button = attack,
-            b_button = defense,
-            down_button = attack,
-            left_button = defense,
-            right_button = attack,
-            up_button = defense,
+            x_button = attack_player,
+            y_button = defense_player,
         )
     $ renpy.show(player.idle_image)
     $ renpy.show(opponent.image)

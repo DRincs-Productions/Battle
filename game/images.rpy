@@ -22,6 +22,10 @@ image opponent attack sx:
     "attack_b_sx.webp"
     pause 0.2
     "idle_b.webp"
+
+image player block:
+    xalign 0.3
+    "defense_a.webp"
 image player idle:
     xalign 0.3
     "idle_a.webp"
@@ -29,12 +33,12 @@ image player damage:
     xalign 0.3
     "dodge_a.webp"
 image player attack dx:
-    xalign 0.7
+    xalign 0.3
     "attack_a_dx.webp"
     pause 0.2
-    "idle_b.webp"
+    "idle_a.webp"
 image player attack sx:
-    xalign 0.7
+    xalign 0.3
     "attack_a_sx.webp"
     pause 0.2
     "idle_b.webp"
