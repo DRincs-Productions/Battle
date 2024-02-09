@@ -141,7 +141,7 @@ screen joystick_button(move, my_align):
             align my_align
             at joystick_button
         key move.key action: [
-            
+            Function(player.set_move, move),
         ]
 
 screen move_info(move):
