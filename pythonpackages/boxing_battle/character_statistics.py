@@ -240,6 +240,7 @@ class PlayerStatistics(FightingStatistics):
         down_button: Optional[FightingMove] = None,
         left_button: Optional[FightingMove] = None,
         right_button: Optional[FightingMove] = None,
+        time_to_wait_between_hits: float = 0.1,
     ):
         super().__init__(
             health,
@@ -256,6 +257,7 @@ class PlayerStatistics(FightingStatistics):
         self.down_button = down_button
         self.left_button = left_button
         self.right_button = right_button
+        self.time_to_wait_between_hits = time_to_wait_between_hits
 
         self.x_enabled = True
         self.y_enabled = True
@@ -265,6 +267,8 @@ class PlayerStatistics(FightingStatistics):
         self.down_enabled = True
         self.left_enabled = True
         self.right_enabled = True
+
+        self.last_hit_number = 0
 
     @property
     def x_button(self) -> Optional[FightingMove]:
@@ -410,6 +414,24 @@ class PlayerStatistics(FightingStatistics):
     def right_enabled(self, value: bool):
         self._right_enabled = value
 
+    @property
+    def time_to_wait_between_hits(self) -> float:
+        """The time to wait between hits."""
+        return self._time_to_wait_between_hits
+
+    @time_to_wait_between_hits.setter
+    def time_to_wait_between_hits(self, value: float):
+        self._time_to_wait_between_hits = value
+
+    @property
+    def last_hit_number(self) -> int:
+        """The last hit number."""
+        return self._last_hit_number
+
+    @last_hit_number.setter
+    def last_hit_number(self, value: int):
+        self._last_hit_number = value
+
     def disable_all_buttons(self):
         """Disable all buttons."""
         self.x_enabled = False
@@ -432,16 +454,27 @@ class PlayerStatistics(FightingStatistics):
         self.left_enabled = True
         self.right_enabled = True
 
-    def set_move(self, move: FightingMove):
+    def set_move(self, move: Optional[FightingMove]):
         """Set the move of the player."""
+        renpy.hide(self.image)
         if isinstance(move, DefenseMove):
             self.current_move = move
             self.current_state = FightingState.DEFENSE
+        elif isinstance(move, AttackMove):
+            self.current_move = move
+            self.current_state = FightingState.ATTACK
+            self.disable_all_buttons()
+            self.last_hit_number += 1
         else:
             self.current_move = move
             self.current_state = FightingState.IDLE
-        renpy.hide(self.image)
         renpy.show(self.image)
+
+    def after_hit(self):
+        """After a hit."""
+        self.enable_all_buttons()
+        self.current_move = None
+        self.current_state = FightingState.IDLE
 
 
 class OpponentStatistics(FightingStatistics):
