@@ -140,7 +140,10 @@ screen joystick_button(move, my_align):
             idle move.icon
             align my_align
             at joystick_button
-        key move.key action: [
+            action [
+                Function(player.set_move, move),
+            ]
+        key move.key action [
             Function(player.set_move, move),
         ]
 
