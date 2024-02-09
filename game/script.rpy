@@ -23,7 +23,7 @@ label start:
         attack = AttackMove(
             name = "Punch",
             icon = "icon punch",
-            animation_image = ["opponent attack_a", "opponent attack_b"],
+            animation_image = ["opponent attack dx", "opponent attack sx"],
             health_damage = 10,
             stamina_damage = 10,
             required_stamina = 10,
