@@ -651,9 +651,7 @@ class OpponentStatistics(FightingStatistics):
     def update_move(self) -> Optional[FightingMove]:
         """Return the move of the opponent."""
         if self.current_state == FightingState.DAMAGED:
-            renpy.hide(self.image)
-            self.current_move = self.random_defense
-            renpy.show(self.image)
+            self.set_move(self.random_defense)
             return self.current_move
         if self.current_state == FightingState.ATTACK:
             return self.current_move
@@ -662,29 +660,34 @@ class OpponentStatistics(FightingStatistics):
             move = self.random_attack
             if move is not None and self.stamina >= move.stamina_damage:
                 log_info("ATTACK")
-                renpy.hide(self.image)
-                self.current_move = move
                 self.current_hit_number = 1
                 self.stamina -= move.stamina_damage
-                self.current_state = FightingState.ATTACK
-                renpy.show(self.image)
+                self.set_move(move)
                 return self.current_move
         # random defanse
         if random.randint(0, 100) < self.defensive_percentage:
             log_info("DEFENSE")
             move = self.random_defense
             if move is not None:
-                renpy.hide(self.image)
-                self.current_move = move
-                self.current_state = FightingState.DEFENSE
-                renpy.show(self.image)
+                self.set_move(move)
                 return self.current_move
         log_info("IDLE")
-        renpy.hide(self.image)
-        self.current_move = None
-        self.current_state = FightingState.IDLE
-        renpy.show(self.image)
+        self.set_move(None)
         return self.current_move
+
+    def set_move(self, move: Optional[FightingMove]):
+        """Set the move of the opponent."""
+        renpy.hide(self.image)
+        if isinstance(move, DefenseMove):
+            self.current_move = move
+            self.current_state = FightingState.DEFENSE
+        elif isinstance(move, AttackMove):
+            self.current_move = move
+            self.current_state = FightingState.ATTACK
+        else:
+            self.current_move = move
+            self.current_state = FightingState.IDLE
+        renpy.show(self.image)
 
     def add_hit(self):
         """Add a hit to the opponent."""
