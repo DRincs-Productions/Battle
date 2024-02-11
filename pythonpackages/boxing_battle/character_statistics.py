@@ -240,7 +240,7 @@ class PlayerStatistics(FightingStatistics):
         down_button: Optional[FightingMove] = None,
         left_button: Optional[FightingMove] = None,
         right_button: Optional[FightingMove] = None,
-        time_to_wait_between_hits: float = 0.1,
+        time_to_wait_between_hits: float = 0.5,
     ):
         super().__init__(
             health,

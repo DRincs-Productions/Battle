@@ -101,15 +101,15 @@ screen stamina_bar(my_bar):
             ycenter = 0.5)
 
 screen joystick(player):
-    use joystick_button(player.up_button, (0.15, 0.40))
-    use joystick_button(player.down_button, (0.15, 0.70))
-    use joystick_button(player.left_button, (0.06, 0.55))
-    use joystick_button(player.right_button, (0.24, 0.55))
+    use joystick_button(player.up_button, (0.15, 0.40), player.up_enabled)
+    use joystick_button(player.down_button, (0.15, 0.70), player.down_enabled)
+    use joystick_button(player.left_button, (0.06, 0.55), player.left_enabled)
+    use joystick_button(player.right_button, (0.24, 0.55), player.right_enabled)
 
-    use joystick_button(player.x_button, (0.85, 0.40))
-    use joystick_button(player.a_button, (0.85, 0.70))
-    use joystick_button(player.y_button, (0.76, 0.55))
-    use joystick_button(player.b_button, (0.94, 0.55))
+    use joystick_button(player.x_button, (0.85, 0.40), player.x_enabled)
+    use joystick_button(player.a_button, (0.85, 0.70), player.a_enabled)
+    use joystick_button(player.y_button, (0.76, 0.55), player.y_enabled)
+    use joystick_button(player.b_button, (0.94, 0.55), player.b_enabled)
 
     vbox:
         spacing 10
@@ -134,11 +134,12 @@ screen joystick(player):
         if player.b_button:
             use move_info(player.b_button)
 
-screen joystick_button(move, my_align):
+screen joystick_button(move, my_align, my_sensitive = False):
     if move and move.icon:
         imagebutton:
             idle move.icon
             align my_align
+            sensitive my_sensitive
             at joystick_button
             action [
                 Function(player.set_move, move),
