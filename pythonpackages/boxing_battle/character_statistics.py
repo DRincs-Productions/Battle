@@ -9,10 +9,11 @@ from pythonpackages.boxing_battle.fighting_move import (
 )
 from pythonpackages.boxing_battle.fighting_state import FightingState
 from pythonpackages.renpy_utility.renpy_custom_log import log_info, log_warn
+from abc import ABC, abstractmethod
 import renpy.exports as renpy
 
 
-class FightingStatistics:
+class FightingStatistics(ABC):
     def __init__(
         self,
         health: int,
@@ -232,6 +233,10 @@ class FightingStatistics:
             return round(value, 2)
         self.stun_date_time = None
         return 0
+
+    @abstractmethod
+    def set_move(self, move: Optional[FightingMove]):
+        pass
 
 
 class PlayerStatistics(FightingStatistics):
