@@ -472,13 +472,12 @@ class PlayerStatistics(FightingStatistics):
     def set_move(self, move: Optional[FightingMove]):
         """Set the move of the player."""
         renpy.hide(self.image)
+        if isinstance(self.current_move, DefenseMove):
+            self.current_move.selected = False
+
         if isinstance(move, DefenseMove):
-            if isinstance(self.current_move, DefenseMove):
-                self.current_move.selected = False
-                if self.current_move == move:
-                    self.current_move = None
-                else:
-                    self.current_move = move
+            if self.current_move == move:
+                self.current_move = None
             else:
                 self.current_move = move
         elif isinstance(move, AttackMove):
