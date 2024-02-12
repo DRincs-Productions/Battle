@@ -28,7 +28,7 @@ class FightingStatistics:
         self.recovery_percentage_stamina = recovery_percentage_stamina
         self.idle_image = idle_image
         self.damage_imaged = damage_imaged
-        self.current_state = FightingState.IDLE
+        self.is_in_damaged_state = False
 
         self.current_hit_number = None
         self.current_move = None
@@ -98,13 +98,24 @@ class FightingStatistics:
         self._damage_imaged = value
 
     @property
+    def is_in_damaged_state(self) -> bool:
+        return self._is_in_damaged_state
+
+    @is_in_damaged_state.setter
+    def is_in_damaged_state(self, value: bool):
+        self._is_in_damaged_state = value
+
+    @property
     def current_state(self) -> FightingState:
         """The current state of the character."""
-        return self._current_state
-
-    @current_state.setter
-    def current_state(self, value: FightingState):
-        self._current_state = value
+        if self.is_in_damaged_state:
+            return FightingState.DAMAGED
+        elif isinstance(self.current_move, AttackMove):
+            return FightingState.ATTACK
+        elif isinstance(self.current_move, DefenseMove):
+            return FightingState.DEFENSE
+        else:
+            return FightingState.IDLE
 
     @property
     def current_hit_number(self) -> int:
@@ -158,7 +169,7 @@ class FightingStatistics:
         renpy.hide(self.image)
         self.health -= rival_attack.health_damage
         if rival_attack.stun_time > 0:
-            self.current_state = FightingState.DAMAGED
+            self.is_in_damaged_state = True
             self.current_move = None
             self.stun_date_time = time.time() + rival_attack.stun_time
         renpy.show(self.image)
@@ -171,8 +182,7 @@ class FightingStatistics:
         renpy.hide(self.image)
         if self.current_state == FightingState.DAMAGED:
             log_info("REMOVE DAMAGE STATE")
-            self.current_state = FightingState.IDLE
-            self.current_move = None
+            self.is_in_damaged_state = False
         renpy.show(self.image)
 
     @property
@@ -462,28 +472,23 @@ class PlayerStatistics(FightingStatistics):
                 self.current_move.selected = False
                 if self.current_move == move:
                     self.current_move = None
-                    self.current_state = FightingState.IDLE
                 else:
                     self.current_move = move
-                    self.current_state = FightingState.DEFENSE
             else:
                 self.current_move = move
-                self.current_state = FightingState.DEFENSE
         elif isinstance(move, AttackMove):
             self.current_move = move
-            self.current_state = FightingState.ATTACK
             self.disable_all_buttons()
             self.last_hit_number += 1
         else:
             self.current_move = move
-            self.current_state = FightingState.IDLE
         renpy.show(self.image)
 
     def after_hit(self):
         """After a hit."""
         self.enable_all_buttons()
         self.current_move = None
-        self.current_state = FightingState.IDLE
+        self.is_in_damaged_state = False
 
 
 class OpponentStatistics(FightingStatistics):
@@ -722,13 +727,10 @@ class OpponentStatistics(FightingStatistics):
         renpy.hide(self.image)
         if isinstance(move, DefenseMove):
             self.current_move = move
-            self.current_state = FightingState.DEFENSE
         elif isinstance(move, AttackMove):
             self.current_move = move
-            self.current_state = FightingState.ATTACK
         else:
             self.current_move = move
-            self.current_state = FightingState.IDLE
         renpy.show(self.image)
 
     def add_hit(self):
@@ -749,7 +751,6 @@ class OpponentStatistics(FightingStatistics):
         else:
             self.current_hit_number = 0
             self.current_move = self.random_defense
-            self.current_state = FightingState.DEFENSE
         renpy.show(self.image)
 
 
