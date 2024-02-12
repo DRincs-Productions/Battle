@@ -19,6 +19,7 @@ class FightingMove:
         self.animation_image = animation_image
         self.animation_sound = animation_sound
         self.can_be_pressed = can_be_pressed
+        self.selected = False
 
     @property
     def name(self) -> str:
@@ -84,6 +85,15 @@ class FightingMove:
     @can_be_pressed.setter
     def can_be_pressed(self, value: bool):
         self._can_be_pressed = value
+
+    @property
+    def selected(self) -> bool:
+        """If the move is selected."""
+        return self._selected
+
+    @selected.setter
+    def selected(self, value: bool):
+        self._selected = value
 
 
 class AttackMove(FightingMove):

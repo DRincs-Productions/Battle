@@ -1,5 +1,6 @@
 ﻿init python:
     from pythonpackages.extra_animated_value.extra_animated_value import ExtraAnimatedValue
+    from pythonpackages.boxing_battle.character_statistics import update_player_move
 
 image bar_blue: 
     "images/bar/blue_bar.webp"
@@ -101,10 +102,18 @@ screen stamina_bar(my_bar):
             ycenter = 0.5)
 
 screen joystick(player):
-    use joystick_button(player.up_button, (0.15, 0.40), player.up_enabled)
-    use joystick_button(player.down_button, (0.15, 0.70), player.down_enabled)
-    use joystick_button(player.left_button, (0.06, 0.55), player.left_enabled)
-    use joystick_button(player.right_button, (0.24, 0.55), player.right_enabled)
+    use joystick_button(player.up_button, (0.15, 0.40),
+        [ Function(update_player_move, player.up_button, player, opponent) ],
+    player.up_enabled)
+    use joystick_button(player.down_button, (0.15, 0.70),
+        [ Function(update_player_move, player.down_button, player, opponent) ],
+    player.down_enabled)
+    use joystick_button(player.left_button, (0.06, 0.55),
+        [ Function(update_player_move, player.left_button, player, opponent) ],
+    player.left_enabled)
+    use joystick_button(player.right_button, (0.24, 0.55),
+        [ Function(update_player_move, player.right_button, player, opponent) ],
+    player.right_enabled)
 
     use joystick_button(player.x_button, (0.85, 0.40), player.x_enabled)
     use joystick_button(player.a_button, (0.85, 0.70), player.a_enabled)
@@ -134,19 +143,16 @@ screen joystick(player):
         if player.b_button:
             use move_info(player.b_button)
 
-screen joystick_button(move, my_align, my_sensitive = False):
+screen joystick_button(move, my_align, my_actions = [], my_sensitive = False):
     if move and move.icon:
         imagebutton:
             idle move.icon
             align my_align
             sensitive my_sensitive
+            selected move.selected
             at joystick_button
-            action [
-                Function(player.set_move, move),
-            ]
-        key move.key action [
-            Function(player.set_move, move),
-        ]
+            action my_actions
+        key move.key action my_actions
 
 screen move_info(move):
     hbox:
