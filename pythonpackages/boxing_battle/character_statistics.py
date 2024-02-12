@@ -285,9 +285,24 @@ class PlayerStatistics(FightingStatistics):
 
         self.last_hit_number = 0
 
+    def check_if_button_is_selected(self, button: FightingMove) -> bool:
+        """Check if the button is selected."""
+        if (
+            self.current_move
+            and button
+            and self.current_move == button
+            and self.current_move.selected
+        ):
+            return self.current_move.selected
+        else:
+            return False
+
     @property
     def x_button(self) -> Optional[FightingMove]:
         """The x button move."""
+        if self._x_button:
+            self._x_button.selected = self.check_if_button_is_selected(self._x_button)
+
         return self._x_button
 
     @x_button.setter
@@ -297,6 +312,9 @@ class PlayerStatistics(FightingStatistics):
     @property
     def y_button(self) -> Optional[FightingMove]:
         """The y button move."""
+        if self._y_button:
+            self._y_button.selected = self.check_if_button_is_selected(self._y_button)
+
         return self._y_button
 
     @y_button.setter
@@ -306,6 +324,9 @@ class PlayerStatistics(FightingStatistics):
     @property
     def a_button(self) -> Optional[FightingMove]:
         """The a button move."""
+        if self._a_button:
+            self._a_button.selected = self.check_if_button_is_selected(self._a_button)
+
         return self._a_button
 
     @a_button.setter
@@ -315,6 +336,9 @@ class PlayerStatistics(FightingStatistics):
     @property
     def b_button(self) -> Optional[FightingMove]:
         """The b button move."""
+        if self._b_button:
+            self._b_button.selected = self.check_if_button_is_selected(self._b_button)
+
         return self._b_button
 
     @b_button.setter
@@ -324,6 +348,9 @@ class PlayerStatistics(FightingStatistics):
     @property
     def up_button(self) -> Optional[FightingMove]:
         """The up button move."""
+        if self._up_button:
+            self._up_button.selected = self.check_if_button_is_selected(self._up_button)
+
         return self._up_button
 
     @up_button.setter
@@ -333,6 +360,11 @@ class PlayerStatistics(FightingStatistics):
     @property
     def down_button(self) -> Optional[FightingMove]:
         """The down button move."""
+        if self._down_button:
+            self._down_button.selected = self.check_if_button_is_selected(
+                self._down_button
+            )
+
         return self._down_button
 
     @down_button.setter
@@ -342,6 +374,11 @@ class PlayerStatistics(FightingStatistics):
     @property
     def left_button(self) -> Optional[FightingMove]:
         """The left button move."""
+        if self._left_button:
+            self._left_button.selected = self.check_if_button_is_selected(
+                self._left_button
+            )
+
         return self._left_button
 
     @left_button.setter
@@ -351,6 +388,11 @@ class PlayerStatistics(FightingStatistics):
     @property
     def right_button(self) -> Optional[FightingMove]:
         """The right button move."""
+        if self._right_button:
+            self._right_button.selected = self.check_if_button_is_selected(
+                self._right_button
+            )
+
         return self._right_button
 
     @right_button.setter
