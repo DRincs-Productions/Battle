@@ -115,10 +115,18 @@ screen joystick(player):
         [ Function(update_player_move, player.right_button, player, opponent) ],
     player.right_enabled)
 
-    use joystick_button(player.x_button, (0.85, 0.40), player.x_enabled)
-    use joystick_button(player.a_button, (0.85, 0.70), player.a_enabled)
-    use joystick_button(player.y_button, (0.76, 0.55), player.y_enabled)
-    use joystick_button(player.b_button, (0.94, 0.55), player.b_enabled)
+    use joystick_button(player.x_button, (0.85, 0.40),
+        [ Function(update_player_move, player.x_button, player, opponent) ],
+    player.x_enabled)
+    use joystick_button(player.a_button, (0.85, 0.70),
+        [ Function(update_player_move, player.a_button, player, opponent) ],
+    player.a_enabled)
+    use joystick_button(player.y_button, (0.76, 0.55),
+        [ Function(update_player_move, player.y_button, player, opponent) ],
+    player.y_enabled)
+    use joystick_button(player.b_button, (0.94, 0.55),
+        [ Function(update_player_move, player.b_button, player, opponent) ],
+    player.b_enabled)
 
     vbox:
         spacing 10

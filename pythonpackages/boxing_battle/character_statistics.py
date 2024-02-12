@@ -471,15 +471,19 @@ class PlayerStatistics(FightingStatistics):
 
     def set_move(self, move: Optional[FightingMove]):
         """Set the move of the player."""
+        log_info("set_move")
         renpy.hide(self.image)
+        log_info(str(move))
         if isinstance(self.current_move, DefenseMove):
             self.current_move.selected = False
 
         if isinstance(move, DefenseMove):
+            log_info("DefenseMove")
             if self.current_move == move:
                 self.current_move = None
             else:
                 self.current_move = move
+                self.current_move.selected = True
         elif isinstance(move, AttackMove):
             self.current_move = move
             self.disable_all_buttons()
@@ -491,8 +495,9 @@ class PlayerStatistics(FightingStatistics):
     def after_hit(self):
         """After a hit."""
         self.enable_all_buttons()
-        self.current_move = None
-        self.is_in_damaged_state = False
+        if isinstance(self.current_move, AttackMove):
+            self.current_move = None
+            self.is_in_damaged_state = False
 
 
 class OpponentStatistics(FightingStatistics):
