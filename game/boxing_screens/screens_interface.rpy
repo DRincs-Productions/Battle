@@ -1,6 +1,6 @@
 ﻿init python:
     from pythonpackages.extra_animated_value.extra_animated_value import ExtraAnimatedValue
-    from pythonpackages.boxing_battle.character_statistics import update_player_move
+    from pythonpackages.boxing_battle.fighting_fun import update_player_move
 
 image bar_blue: 
     "images/bar/blue_bar.webp"

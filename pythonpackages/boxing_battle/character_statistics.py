@@ -803,15 +803,3 @@ class OpponentStatistics(FightingStatistics):
             self.current_hit_number = 0
             self.current_move = self.random_defense
         renpy.show(self.image)
-
-
-def update_opponent_move(opponent: OpponentStatistics, player: PlayerStatistics):
-    value = opponent.update_move()
-    if value and isinstance(value, AttackMove):
-        player.damage(value)
-
-
-def update_player_move(
-    move: Optional[FightingMove], player: PlayerStatistics, opponent: OpponentStatistics
-):
-    player.set_move(move)
