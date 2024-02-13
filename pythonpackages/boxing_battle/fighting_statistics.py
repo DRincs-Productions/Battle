@@ -6,7 +6,7 @@ from pythonpackages.boxing_battle.fighting_move import (
     FightingMove,
 )
 from pythonpackages.boxing_battle.fighting_state import FightingState
-from pythonpackages.renpy_utility.renpy_custom_log import log_info, log_warn
+from pythonpackages.renpy_utility.renpy_custom_log import log_warn
 from abc import ABC, abstractmethod
 import renpy.exports as renpy
 
@@ -179,7 +179,6 @@ class FightingStatistics(ABC):
             return
         renpy.hide(self.image)
         if self.current_state == FightingState.DAMAGED:
-            log_info("REMOVE DAMAGE STATE")
             self.is_in_damaged_state = False
         renpy.show(self.image)
 
@@ -197,7 +196,6 @@ class FightingStatistics(ABC):
         """Recover the stamina."""
         amt = self.max_stamina * self.recovery_percentage_stamina / 100
         self.stamina += int(amt)
-        log_info(f"RECOVER STAMINA: {amt}")
         if self.stamina > self.max_stamina:
             self.stamina = self.max_stamina
 
