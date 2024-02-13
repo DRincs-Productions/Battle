@@ -12,6 +12,12 @@ def update_opponent_move(opponent: OpponentStatistics, player: PlayerStatistics)
         player.damage(value)
 
 
+def update_opponent_hit(opponent: OpponentStatistics, player: PlayerStatistics):
+    res = opponent.add_hit()
+    if res:
+        player.damage(opponent.current_move)
+
+
 def update_player_move(
     move: Optional[FightingMove], player: PlayerStatistics, opponent: OpponentStatistics
 ):

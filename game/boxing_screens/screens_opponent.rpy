@@ -1,6 +1,6 @@
 ﻿init python:
     from pythonpackages.boxing_battle.fighting_state import FightingState
-    from pythonpackages.boxing_battle.fighting_fun import update_opponent_move
+    from pythonpackages.boxing_battle.fighting_fun import update_opponent_move, update_opponent_hit
 
 screen boxing_opponent_thinking(player, opponent):
     if not opponent.current_state == FightingState.ATTACK:
@@ -9,6 +9,5 @@ screen boxing_opponent_thinking(player, opponent):
             ]
     else:
         timer opponent.random_time_between_hits repeat opponent.current_state == FightingState.ATTACK action [
-                Function(opponent.add_hit),
-                Function(player.damage, opponent.current_move), # TODO to change
+                Function(update_opponent_hit, opponent, player),
             ]

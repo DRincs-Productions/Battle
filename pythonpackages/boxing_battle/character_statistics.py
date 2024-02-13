@@ -149,7 +149,7 @@ class FightingStatistics(ABC):
 
     def damage(
         self,
-        rival_attack: FightingMove,
+        rival_attack: Optional[FightingMove],
     ):
         """Calculate the damage of the attack."""
         # stamina_damage = rival_attack.stamina_damage - defense.stamina_resistance
@@ -784,14 +784,15 @@ class OpponentStatistics(FightingStatistics):
             self.current_move = move
         renpy.show(self.image)
 
-    def add_hit(self):
+    def add_hit(self) -> bool:
         """Add a hit to the opponent."""
         log_info("HIT: " + str(self.current_hit_number))
         if not isinstance(self.current_move, AttackMove):
             log_warn(
                 "The current move is not an attack move.", "OpponentStatistics.add_hit"
             )
-            return
+            return False
+        res = False
         renpy.hide(self.image)
         if (
             self.stamina >= self.current_move.stamina_damage
@@ -799,7 +800,10 @@ class OpponentStatistics(FightingStatistics):
         ):
             self.stamina -= self.current_move.stamina_damage
             self.current_hit_number += 1
+            res = True
         else:
             self.current_hit_number = 0
             self.current_move = self.random_defense
+            res = False
         renpy.show(self.image)
+        return res
