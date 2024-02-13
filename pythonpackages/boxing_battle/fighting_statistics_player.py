@@ -299,9 +299,7 @@ class PlayerStatistics(FightingStatistics):
 
     def set_move(self, move: Optional[FightingMove]):
         """Set the move of the player."""
-        log_info("set_move")
         renpy.hide(self.image)
-        log_info(str(move))
         if isinstance(self.current_move, DefenseMove):
             self.current_move.selected = False
 
