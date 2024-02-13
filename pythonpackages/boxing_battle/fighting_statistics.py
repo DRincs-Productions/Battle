@@ -118,7 +118,7 @@ class FightingStatistics(ABC):
 
     @property
     def current_hit_number(self) -> int:
-        """The current hit of the opponent."""
+        """The current hit of the character."""
         if self._current_hit_number is None:
             return 0
         return self._current_hit_number
@@ -129,7 +129,7 @@ class FightingStatistics(ABC):
 
     @property
     def current_move(self) -> Optional[FightingMove]:
-        """The current move of the opponent."""
+        """The current move of the character."""
         return self._current_move
 
     @current_move.setter
@@ -138,7 +138,7 @@ class FightingStatistics(ABC):
 
     @property
     def stun_date_time(self) -> Optional[float]:
-        """The stun time of the opponent."""
+        """The stun time of the character."""
         return self._stun_date_time
 
     @stun_date_time.setter
@@ -203,7 +203,7 @@ class FightingStatistics(ABC):
 
     @property
     def image(self) -> str:
-        """Return the image of the opponent."""
+        """Return the image of the character."""
         if self.current_move is None:
             if self.current_state == FightingState.DAMAGED:
                 return self.damage_imaged
