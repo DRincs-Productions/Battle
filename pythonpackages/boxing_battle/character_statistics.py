@@ -206,7 +206,6 @@ class FightingStatistics(ABC):
     @property
     def image(self) -> str:
         """Return the image of the opponent."""
-        log_info(f"STATE: {self.current_state}")
         if self.current_move is None:
             if self.current_state == FightingState.DAMAGED:
                 return self.damage_imaged
@@ -761,6 +760,7 @@ class OpponentStatistics(FightingStatistics):
             move = self.random_attack
             if move is not None and self.stamina >= move.stamina_damage:
                 log_info("ATTACK")
+                log_info("HIT: " + str(self.current_hit_number))
                 self.current_hit_number = 1
                 self.stamina -= move.stamina_damage
                 self.set_move(move)
@@ -789,7 +789,6 @@ class OpponentStatistics(FightingStatistics):
 
     def add_hit(self) -> bool:
         """Add a hit to the opponent."""
-        log_info("HIT: " + str(self.current_hit_number))
         if not isinstance(self.current_move, AttackMove):
             log_warn(
                 "The current move is not an attack move.", "OpponentStatistics.add_hit"
@@ -804,9 +803,11 @@ class OpponentStatistics(FightingStatistics):
             self.stamina -= self.current_move.stamina_damage
             self.current_hit_number += 1
             res = True
+            log_info("HIT: " + str(self.current_hit_number))
         else:
             self.current_hit_number = 0
             self.current_move = self.random_defense
             res = False
+            log_info("DEFENSE")
         renpy.show(self.image)
         return res
