@@ -1,5 +1,5 @@
 from typing import Optional
-from pythonpackages.boxing_battle.character_statistics import (
+from pythonpackages.boxing_battle.fighting_statistics import (
     OpponentStatistics,
     PlayerStatistics,
 )
