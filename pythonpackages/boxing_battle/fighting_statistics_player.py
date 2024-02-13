@@ -326,6 +326,3 @@ class PlayerStatistics(FightingStatistics):
             self.current_move = None
             self.is_in_damaged_state = False
             self.enable_all_buttons()
-
-    def remove_damage_state(self):
-        super().remove_damage_state()
