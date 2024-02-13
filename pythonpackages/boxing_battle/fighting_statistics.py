@@ -168,7 +168,6 @@ class FightingStatistics(ABC):
         self.health -= rival_attack.health_damage
         if rival_attack.stun_time > 0:
             self.is_in_damaged_state = True
-            self.current_move = None
             self.stun_date_time = time.time() + rival_attack.stun_time
         renpy.show(self.image)
         return
