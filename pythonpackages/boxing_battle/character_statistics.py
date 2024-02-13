@@ -400,6 +400,8 @@ class PlayerStatistics(FightingStatistics):
     @property
     def x_enabled(self) -> bool:
         """If the x button is enabled."""
+        if self.is_in_damaged_state:
+            return False
         return self._x_enabled
 
     @x_enabled.setter
@@ -409,6 +411,8 @@ class PlayerStatistics(FightingStatistics):
     @property
     def y_enabled(self) -> bool:
         """If the y button is enabled."""
+        if self.is_in_damaged_state:
+            return False
         return self._y_enabled
 
     @y_enabled.setter
@@ -418,6 +422,8 @@ class PlayerStatistics(FightingStatistics):
     @property
     def a_enabled(self) -> bool:
         """If the a button is enabled."""
+        if self.is_in_damaged_state:
+            return False
         return self._a_enabled
 
     @a_enabled.setter
@@ -427,6 +433,8 @@ class PlayerStatistics(FightingStatistics):
     @property
     def b_enabled(self) -> bool:
         """If the b button is enabled."""
+        if self.is_in_damaged_state:
+            return False
         return self._b_enabled
 
     @b_enabled.setter
@@ -436,6 +444,8 @@ class PlayerStatistics(FightingStatistics):
     @property
     def up_enabled(self) -> bool:
         """If the up button is enabled."""
+        if self.is_in_damaged_state:
+            return False
         return self._up_enabled
 
     @up_enabled.setter
@@ -445,6 +455,8 @@ class PlayerStatistics(FightingStatistics):
     @property
     def down_enabled(self) -> bool:
         """If the down button is enabled."""
+        if self.is_in_damaged_state:
+            return False
         return self._down_enabled
 
     @down_enabled.setter
@@ -454,6 +466,8 @@ class PlayerStatistics(FightingStatistics):
     @property
     def left_enabled(self) -> bool:
         """If the left button is enabled."""
+        if self.is_in_damaged_state:
+            return False
         return self._left_enabled
 
     @left_enabled.setter
@@ -463,6 +477,8 @@ class PlayerStatistics(FightingStatistics):
     @property
     def right_enabled(self) -> bool:
         """If the right button is enabled."""
+        if self.is_in_damaged_state:
+            return False
         return self._right_enabled
 
     @right_enabled.setter
@@ -541,7 +557,6 @@ class PlayerStatistics(FightingStatistics):
 
     def remove_damage_state(self):
         super().remove_damage_state()
-        self.enable_all_buttons()
 
 
 class OpponentStatistics(FightingStatistics):
