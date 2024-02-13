@@ -221,7 +221,7 @@ class FightingStatistics(ABC):
 
     @property
     def stun_time_to_wait(self) -> float:
-        """The stun time to wait."""
+        """The stun time to wait. If the value is equal or less than 0, it will return 0."""
         if self.stun_date_time is None:
             return 0
         value = self.stun_date_time - time.time()
@@ -232,6 +232,7 @@ class FightingStatistics(ABC):
 
     @property
     def stun_time_to_wait_into_timer(self) -> float:
+        """The stun time to wait. Is equal to stun_time_to_wait, but if the value is equal or less than 0, it will return 0.01."""
         value = self.stun_time_to_wait
         if value <= 0:
             return 0.01
