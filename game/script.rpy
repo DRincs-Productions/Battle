@@ -12,7 +12,8 @@ label start:
 
     python:
         from pythonpackages.boxing_battle.fighting_move import DefenseMove, AttackMove
-        from pythonpackages.boxing_battle.fighting_statistics import OpponentStatistics, PlayerStatistics
+        from pythonpackages.boxing_battle.fighting_statistics_opponent import OpponentStatistics
+        from pythonpackages.boxing_battle.fighting_statistics_player import PlayerStatistics
 
         # Opponent
         defense_opponent = DefenseMove(

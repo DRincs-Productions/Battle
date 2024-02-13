@@ -1,9 +1,7 @@
 from typing import Optional
-from pythonpackages.boxing_battle.fighting_statistics import (
-    OpponentStatistics,
-    PlayerStatistics,
-)
 from pythonpackages.boxing_battle.fighting_move import AttackMove, FightingMove
+from pythonpackages.boxing_battle.fighting_statistics_opponent import OpponentStatistics
+from pythonpackages.boxing_battle.fighting_statistics_player import PlayerStatistics
 
 
 def update_opponent_move(opponent: OpponentStatistics, player: PlayerStatistics):
