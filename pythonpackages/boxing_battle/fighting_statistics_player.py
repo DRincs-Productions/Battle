@@ -297,7 +297,7 @@ class PlayerStatistics(FightingStatistics):
         self.left_enabled = True
         self.right_enabled = True
 
-    def set_move(self, move: Optional[FightingMove]):
+    def set_move(self, move: Optional[FightingMove]) -> Optional[FightingMove]:
         """Set the move of the player."""
         renpy.hide(self.image)
         if isinstance(self.current_move, DefenseMove):
@@ -317,6 +317,7 @@ class PlayerStatistics(FightingStatistics):
         else:
             self.current_move = move
         renpy.show(self.image)
+        return self.current_move
 
     def after_hit(self):
         """After a hit."""
