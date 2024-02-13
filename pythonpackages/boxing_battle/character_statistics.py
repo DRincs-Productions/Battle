@@ -166,7 +166,6 @@ class FightingStatistics(ABC):
             )
             return
 
-        log_info(f"STUN DATA damage(): {self.stun_date_time}")
         renpy.hide(self.image)
         self.health -= rival_attack.health_damage
         if rival_attack.stun_time > 0:
@@ -536,10 +535,14 @@ class PlayerStatistics(FightingStatistics):
 
     def after_hit(self):
         """After a hit."""
-        self.enable_all_buttons()
         if isinstance(self.current_move, AttackMove):
             self.current_move = None
             self.is_in_damaged_state = False
+            self.enable_all_buttons()
+
+    def remove_damage_state(self):
+        super().remove_damage_state()
+        self.enable_all_buttons()
 
 
 class OpponentStatistics(FightingStatistics):

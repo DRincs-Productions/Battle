@@ -10,12 +10,14 @@ def update_opponent_move(opponent: OpponentStatistics, player: PlayerStatistics)
     value = opponent.update_move()
     if value and isinstance(value, AttackMove):
         player.damage(value)
+        player.disable_all_buttons()
 
 
 def update_opponent_hit(opponent: OpponentStatistics, player: PlayerStatistics):
     res = opponent.add_hit()
     if res:
         player.damage(opponent.current_move)
+        player.disable_all_buttons()
 
 
 def update_player_move(
