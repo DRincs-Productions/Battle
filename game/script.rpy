@@ -27,8 +27,7 @@ label start:
             icon = "icon punch",
             animation_image = ["opponent attack dx", "opponent attack sx"],
             health_damage = 10,
-            stamina_damage = 10,
-            required_stamina = 10,
+            stamina_cost = 5,
             key = "b",
             stun_time = 0.7,
         )
@@ -55,8 +54,7 @@ label start:
             icon = "icon punch",
             animation_image = ["player attack dx", "opponent attack sx"],
             health_damage = 10,
-            stamina_damage = 10,
-            required_stamina = 10,
+            stamina_cost = 5,
             key = "b",
             stun_time = 0.7,
         )

@@ -150,18 +150,22 @@ class FightingStatistics(ABC):
         rival_attack: Optional[FightingMove],
     ):
         """Calculate the damage of the attack."""
-        # stamina_damage = rival_attack.stamina_damage - defense.stamina_resistance
-        # health_damage = rival_attack.health_damage - defense.health_resistance
-        # if stamina_damage < 0:
-        #     stamina_damage = 0
-        # if health_damage < 0:
-        #     health_damage = 0
-        # self.stamina -= stamina_damage
 
         if not isinstance(rival_attack, AttackMove):
             log_warn(
                 "The rival attack is not an attack move.", "FightingStatistics.damage"
             )
+            return
+
+        if (
+            isinstance(self.current_move, DefenseMove)
+            and self.stamina >= self.current_move.stamina_cost
+        ):
+            self.stamina -= self.current_move.stamina_cost
+            if rival_attack.health_damage > self.current_move.health_resistance:
+                self.health -= (
+                    rival_attack.health_damage - self.current_move.health_resistance
+                )
             return
 
         renpy.hide(self.image)

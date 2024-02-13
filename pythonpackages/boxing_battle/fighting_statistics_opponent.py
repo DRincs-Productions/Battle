@@ -226,11 +226,11 @@ class OpponentStatistics(FightingStatistics):
         # random attack
         if random.randint(0, 100) < self.aggression_percentage:
             move = self.random_attack
-            if move is not None and self.stamina >= move.stamina_damage:
+            if move is not None and self.stamina >= move.stamina_cost:
                 log_info("ATTACK")
                 self.current_hit_number = 1
                 log_info("HIT: " + str(self.current_hit_number))
-                self.stamina -= move.stamina_damage
+                self.stamina -= move.stamina_cost
                 self.set_move(move)
                 return self.current_move
         # random defanse
@@ -265,10 +265,10 @@ class OpponentStatistics(FightingStatistics):
         res = False
         renpy.hide(self.image)
         if (
-            self.stamina >= self.current_move.stamina_damage
+            self.stamina >= self.current_move.stamina_cost
             and self.current_hit_number <= self.random_repeated_hits
         ):
-            self.stamina -= self.current_move.stamina_damage
+            self.stamina -= self.current_move.stamina_cost
             self.current_hit_number += 1
             res = True
             log_info("HIT: " + str(self.current_hit_number))

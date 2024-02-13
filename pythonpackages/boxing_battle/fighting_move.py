@@ -20,6 +20,7 @@ class FightingMove:
         self.animation_sound = animation_sound
         self.can_be_pressed = can_be_pressed
         self.selected = False
+        self.stamina_cost = 0
 
     @property
     def name(self) -> str:
@@ -95,6 +96,15 @@ class FightingMove:
     def selected(self, value: bool):
         self._selected = value
 
+    @property
+    def stamina_cost(self) -> int:
+        """The required stamina of the move."""
+        return self._stamina_cost
+
+    @stamina_cost.setter
+    def stamina_cost(self, value: int):
+        self._stamina_cost = value
+
 
 class AttackMove(FightingMove):
     def __init__(
@@ -102,10 +112,9 @@ class AttackMove(FightingMove):
         name: str,
         icon: str,
         health_damage: int,
-        stamina_damage: int,
         key: str,
         animation_image: Union[str, list[str]],
-        required_stamina: int,
+        stamina_cost: int,
         animation_sound: Optional[str] = None,
         stun_time: float = 0,
     ):
@@ -119,9 +128,8 @@ class AttackMove(FightingMove):
         )
 
         self.health_damage = health_damage
-        self.stamina_damage = stamina_damage
         self.stun_time = stun_time
-        self.required_stamina = required_stamina
+        self.stamina_cost = stamina_cost
 
     @property
     def health_damage(self) -> int:
@@ -131,15 +139,6 @@ class AttackMove(FightingMove):
     @health_damage.setter
     def health_damage(self, value: int):
         self._health_damage = value
-
-    @property
-    def stamina_damage(self) -> int:
-        """The stamina damage of the move."""
-        return self._stamina_damage
-
-    @stamina_damage.setter
-    def stamina_damage(self, value: int):
-        self._stamina_damage = value
 
     @property
     def stun_time(self) -> float:
@@ -152,15 +151,6 @@ class AttackMove(FightingMove):
     def stun_time(self, value: Optional[float]):
         self._stun_time = value
 
-    @property
-    def required_stamina(self) -> int:
-        """The required stamina of the move."""
-        return self._required_stamina
-
-    @required_stamina.setter
-    def required_stamina(self, value: int):
-        self._required_stamina = value
-
 
 class DefenseMove(FightingMove):
     def __init__(
@@ -171,7 +161,7 @@ class DefenseMove(FightingMove):
         animation_image: str,
         animation_sound: Optional[str] = None,
         health_resistance: Optional[int] = None,
-        stamina_resistance: Optional[int] = None,
+        stamina_cost: int = 0,
     ):
         super().__init__(
             name=name,
@@ -183,7 +173,7 @@ class DefenseMove(FightingMove):
         )
 
         self.health_resistance = health_resistance
-        self.stamina_resistance = stamina_resistance
+        self.stamina_cost = stamina_cost
 
     @property
     def health_resistance(self) -> int:
@@ -198,20 +188,6 @@ class DefenseMove(FightingMove):
     @health_resistance.setter
     def health_resistance(self, value: Optional[int]):
         self._health_resistance = value
-
-    @property
-    def stamina_resistance(self) -> int:
-        """
-        The stamina resistance of the move.
-        Default is 0.
-        """
-        if self._stamina_resistance is None:
-            return 0
-        return self._stamina_resistance
-
-    @stamina_resistance.setter
-    def stamina_resistance(self, value: Optional[int]):
-        self._stamina_resistance = value
 
 
 class DodgeMove(FightingMove):
