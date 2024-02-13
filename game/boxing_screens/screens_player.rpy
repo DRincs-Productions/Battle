@@ -1,6 +1,6 @@
 ﻿screen boxing_player_thinking(player, opponent):
-    if player.stun_time_to_wait > 0:
-        timer player.stun_time_to_wait repeat player.stun_time_to_wait > 0 action [
+    if player.is_in_damaged_state:
+        timer player.stun_time_to_wait_into_timer repeat player.stun_time_to_wait > 0 action [
                 Function(player.remove_damage_state),
             ]
     timer player.time_to_wait_between_hits repeat True action [

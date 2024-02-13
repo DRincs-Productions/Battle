@@ -232,6 +232,13 @@ class FightingStatistics(ABC):
         self.stun_date_time = None
         return 0
 
+    @property
+    def stun_time_to_wait_into_timer(self) -> float:
+        value = self.stun_time_to_wait
+        if value <= 0:
+            return 0.01
+        return value
+
     @abstractmethod
     def set_move(self, move: Optional[FightingMove]):
         pass
