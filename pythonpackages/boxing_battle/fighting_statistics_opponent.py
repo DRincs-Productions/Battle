@@ -228,8 +228,8 @@ class OpponentStatistics(FightingStatistics):
             move = self.random_attack
             if move is not None and self.stamina >= move.stamina_damage:
                 log_info("ATTACK")
-                log_info("HIT: " + str(self.current_hit_number))
                 self.current_hit_number = 1
+                log_info("HIT: " + str(self.current_hit_number))
                 self.stamina -= move.stamina_damage
                 self.set_move(move)
                 return self.current_move
